@@ -1,0 +1,21 @@
+.container {
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+  }
+  
+  .centered-box {
+    background: #f0f0f0;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centra texto y elementos inline */
+  }
+
+  .btn-primary{
+    width: 80px;
+    height: 30px;
+    
+
+  }
