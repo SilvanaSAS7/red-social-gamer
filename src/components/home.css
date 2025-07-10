@@ -11,13 +11,13 @@
 .console-bar {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .console-card {
   flex: 1;
   margin: 0 0.5rem;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 1rem;
   text-align: center;
   font-weight: bold;
@@ -46,34 +46,86 @@
   background: #e60012;
 }
 
-/* Contenido principal */
-.main-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.content-box {
+/* Nueva publicación */
+.new-post {
   background: rgba(255, 255, 255, 0.05);
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  margin-bottom: 1rem;
 }
 
-.content-box h3 {
+.new-post textarea {
+  width: 100%;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  resize: none;
+  font-size: 1rem;
   margin-bottom: 0.5rem;
-  font-size: 1.5rem;
 }
 
-ul {
-  margin-top: 0.5rem;
-  padding-left: 1rem;
-  list-style: disc;
+.new-post button {
+  background: #6c0ab8;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.new-post button:hover {
+  background: #520988;
+}
+
+/* Feed */
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .post {
-  margin-top: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.post h4 {
+  margin-bottom: 0.3rem;
+}
+
+.post p {
+  margin-bottom: 0.5rem;
+}
+
+.live-button {
+  background: #e60012;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.8rem;
   border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.live-button:hover {
+  background: #b0000f;
+}
+
+.reactions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.reactions button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.reactions button:hover {
+  transform: scale(1.2);
 }

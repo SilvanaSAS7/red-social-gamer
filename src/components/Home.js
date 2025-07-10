@@ -1,8 +1,59 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './home.css';
 
 const Home = () => {
   const navigate = useNavigate();
+
+  // Estado para publicaciones
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      user: 'GamerQueen',
+      content: '¿Alguien ya probó el nuevo Zelda TOTK? 😍',
+      reactions: { like: 3, fire: 1, game: 2 },
+      isLive: false,
+    },
+    {
+      id: 2,
+      user: 'NoobMaster69',
+      content: '🔴 En vivo jugando Fortnite. ¡Entra a verme!',
+      reactions: { like: 5, fire: 2, game: 1 },
+      isLive: true,
+    },
+  ]);
+
+  const [newPost, setNewPost] = useState('');
+
+  const handlePost = () => {
+    if (newPost.trim() === '') return;
+
+    const newPublication = {
+      id: Date.now(),
+      user: 'SilvanaSarai',
+      content: newPost,
+      reactions: { like: 0, fire: 0, game: 0 },
+      isLive: false,
+    };
+    setPosts([newPublication, ...posts]);
+    setNewPost('');
+  };
+
+  const addReaction = (id, type) => {
+    setPosts(
+      posts.map((post) =>
+        post.id === id
+          ? {
+              ...post,
+              reactions: {
+                ...post.reactions,
+                [type]: post.reactions[type] + 1,
+              },
+            }
+          : post
+      )
+    );
+  };
 
   return (
     <div className="home-container">
@@ -34,46 +85,43 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Sección de contenido principal */}
-      <div className="main-content">
-        {/* Lives */}
-        <div className="content-box lives">
-          <h3>🎥 Lives</h3>
-          <p>Streamers en vivo ahora mismo.</p>
-          <ul>
-            <li>GamerPro jugando Fortnite</li>
-            <li>NoobMaster69 en Apex Legends</li>
-            <li>QueenGamer transmitiendo Zelda TOTK</li>
-          </ul>
-        </div>
+      {/* Sección de publicación */}
+      <div className="new-post">
+        <textarea
+          placeholder="¿Qué estás pensando, Silvana?"
+          value={newPost}
+          onChange={(e) => setNewPost(e.target.value)}
+        />
+        <button onClick={handlePost}>Publicar</button>
+      </div>
 
-        {/* Torneos */}
-        <div className="content-box tournaments">
-          <h3>🏆 Torneos</h3>
-          <p>Próximos eventos y competencias.</p>
-          <ul>
-            <li>Fortnite Summer Cup - 12 de julio</li>
-            <li>Valorant Masters - 20 de julio</li>
-            <li>Smash Bros Ultimate - 5 de agosto</li>
-          </ul>
-        </div>
-
-        {/* Noticias y publicaciones */}
-        <div className="content-box feed">
-          <h3>📰 Noticias y Publicaciones</h3>
-          <div className="post">
-            <h4>Nueva actualización de Call of Duty</h4>
-            <p>Incluye mapas, armas y skins temáticos de verano.</p>
+      {/* Feed de publicaciones */}
+      <div className="feed">
+        {posts.map((post) => (
+          <div key={post.id} className="post">
+            <h4>{post.user}</h4>
+            <p>{post.content}</p>
+            {post.isLive && (
+              <button
+                className="live-button"
+                onClick={() => navigate('/live')}
+              >
+                🔴 Ver en vivo
+              </button>
+            )}
+            <div className="reactions">
+              <button onClick={() => addReaction(post.id, 'like')}>
+                ❤️ {post.reactions.like}
+              </button>
+              <button onClick={() => addReaction(post.id, 'fire')}>
+                🔥 {post.reactions.fire}
+              </button>
+              <button onClick={() => addReaction(post.id, 'game')}>
+                🎮 {post.reactions.game}
+              </button>
+            </div>
           </div>
-          <div className="post">
-            <h4>Nintendo Direct confirmado</h4>
-            <p>Revelación de nuevos juegos para Switch 2 este mes.</p>
-          </div>
-          <div className="post">
-            <h4>Steam Summer Sale activa</h4>
-            <p>Hasta 80% de descuento en títulos populares de PC.</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
