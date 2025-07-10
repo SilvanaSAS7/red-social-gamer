@@ -1,0 +1,107 @@
+/* Xbox.css */
+.xbox-container {
+  background: linear-gradient(135deg, #107c10 0%, #0a4d0a 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.xbox-container h1 {
+  color: #ffffff;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.xbox-container .noticias-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.xbox-container .noticias-section h2 {
+  color: #9bf00b;
+  border-bottom: 2px solid #9bf00b;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.xbox-container .noticia-item {
+  background: rgba(16, 124, 16, 0.5);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+  border-left: 4px solid #9bf00b;
+}
+
+.xbox-container .noticia-item:hover {
+  transform: translateX(5px);
+  background: rgba(16, 124, 16, 0.7);
+}
+
+.xbox-container .noticia-fecha {
+  color: #c0ff72;
+  font-size: 0.85rem;
+}
+
+.xbox-container .juegos-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.xbox-container .juegos-section h2 {
+  color: #107c10;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  background-color: #9bf00b;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.xbox-container .juego-item {
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.xbox-container .juego-item:hover {
+  transform: scale(1.05);
+}
+
+.xbox-container .juego-imagen {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 3px solid #9bf00b;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.xbox-container .juego-nombre {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.xbox-container .slick-prev:before, 
+.xbox-container .slick-next:before {
+  color: #9bf00b;
+  font-size: 30px;
+}
+
+.xbox-container .slick-dots li button:before {
+  color: #ffffff;
+}
+
+.xbox-container .slick-dots li.slick-active button:before {
+  color: #9bf00b;
+}

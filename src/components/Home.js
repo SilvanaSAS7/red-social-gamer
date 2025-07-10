@@ -5,7 +5,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate('/store'); // Navega directo a la tienda
+    navigate('/Store'); // Navega directo a la tienda
   };
 
   return (
