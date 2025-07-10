@@ -4,8 +4,8 @@ import './home.css';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Estado para publicaciones
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -24,6 +24,10 @@ const Home = () => {
   ]);
 
   const [newPost, setNewPost] = useState('');
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   const handlePost = () => {
     if (newPost.trim() === '') return;
@@ -57,7 +61,32 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Barra superior con consolas */}
+      {/* User en la esquina superior derecha */}
+      <div className="user-container right">
+        <div className="user-display" onClick={toggleMenu}>
+          <img
+            src="https://i.pravatar.cc/40?img=5" // Foto de perfil random (puedes cambiarla)
+            alt="User Profile"
+            className="user-avatar"
+          />
+          <span className="user-name">SilvanaSarai</span>
+        </div>
+
+        {/* Menú desplegable */}
+        {menuOpen && (
+          <div className="user-menu animate">
+            <div onClick={() => navigate('/profile')}>📄 Mi Perfil</div>
+            <div onClick={() => navigate('/live')}>🎥 Live</div>
+            <div onClick={() => navigate('/settings')}>⚙️ Configuración</div>
+            <div onClick={() => navigate('/login')}>🚪 Cerrar Sesión</div>
+          </div>
+        )}
+      </div>
+
+      {/* Más espacio entre user y barra gamer */}
+      <div style={{ height: '2rem' }}></div>
+
+      {/* Barra gamer de consolas */}
       <div className="console-bar">
         <div
           className="console-card playstation"
@@ -85,7 +114,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Sección de publicación */}
+      {/* Nueva publicación */}
       <div className="new-post">
         <textarea
           placeholder="¿Qué estás pensando, Silvana?"
