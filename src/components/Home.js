@@ -75,7 +75,10 @@ const Home = () => {
         {/* Menú desplegable */}
         {menuOpen && (
           <div className="user-menu animate">
-            <div onClick={() => navigate('/profile')}>📄 Mi Perfil</div>
+            <div style={{display:'flex', alignItems:'center'}}>
+              <div onClick={() => navigate('/profile')}>📄 Mi Perfil</div>
+              <button style={{marginLeft:'10px'}} onClick={() => navigate('/store')}>🛒 Tienda</button>
+            </div>
             <div onClick={() => navigate('/live')}>🎥 Live</div>
             <div onClick={() => navigate('/settings')}>⚙️ Configuración</div>
             <div onClick={() => navigate('/login')}>🚪 Cerrar Sesión</div>
