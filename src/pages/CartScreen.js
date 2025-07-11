@@ -1,4 +1,3 @@
-// src/screens/CartScreen.js
 import React from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
 import BarcodeGenerator from '../components/BarcodeGenerator';
@@ -9,7 +8,7 @@ const CartScreen = ({ route }) => {
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
   const handlePayPal = () => {
-    // Aquí debes integrar paypalService.js o un backend
+    // Aquí se va a integrar el paypalService.js o un backend
     console.log("Redirigir a PayPal");
   };
 

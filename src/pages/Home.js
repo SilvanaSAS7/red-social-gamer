@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './home.css';
+import '../styles/home.css';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -59,13 +59,44 @@ const Home = () => {
     );
   };
 
+  // 🚀 NUEVO: Live directo en la app
+  const [showLive, setShowLive] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
+  const videoRef = useRef(null);
+
+  const startLive = async () => {
+    setShowLive(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      videoRef.current.srcObject = stream;
+      setIsStreaming(true);
+    } catch (err) {
+      console.error('Error al acceder a la cámara/micrófono:', err);
+      alert('No se pudo acceder a la cámara o micrófono.');
+      setShowLive(false);
+    }
+  };
+
+  const stopLive = () => {
+    const stream = videoRef.current.srcObject;
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+    }
+    videoRef.current.srcObject = null;
+    setIsStreaming(false);
+    setShowLive(false);
+  };
+
   return (
     <div className="home-container">
       {/* User en la esquina superior derecha */}
       <div className="user-container right">
         <div className="user-display" onClick={toggleMenu}>
           <img
-            src="https://i.pravatar.cc/40?img=5" // Foto de perfil random (puedes cambiarla)
+            src="https://i.pravatar.cc/40?img=5" // Foto de perfil random
             alt="User Profile"
             className="user-avatar"
           />
@@ -76,12 +107,32 @@ const Home = () => {
         {menuOpen && (
           <div className="user-menu animate">
             <div onClick={() => navigate('/profile')}>📄 Mi Perfil</div>
-            <div onClick={() => navigate('/live')}>🎥 Live</div>
+            <div onClick={startLive}>🎥 Live</div>
             <div onClick={() => navigate('/settings')}>⚙️ Configuración</div>
-            <div onClick={() => navigate('/login')}>🚪 Cerrar Sesión</div>
+            <div onClick={() => navigate('../components/login')}>🚪 Cerrar Sesión</div>
           </div>
         )}
       </div>
+
+      {/* Modal de transmisión en vivo */}
+      {showLive && (
+        <div className="modal-overlay">
+          <div className="modal-content live">
+            <h2>🔴 Transmitiendo en Vivo</h2>
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              className="live-video"
+            ></video>
+            <div className="modal-buttons">
+              <button onClick={stopLive} className="btn-stop">
+                Finalizar Live
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Más espacio entre user y barra gamer */}
       <div style={{ height: '2rem' }}></div>
