@@ -206,5 +206,8 @@ const Home = () => {
     </div>
   );
 };
+HEAD
 
 export default Home;
+
+
