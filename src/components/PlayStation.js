@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import './console.css'; // Conservamos también este import si es necesario
 
 const PlayStation = () => {
   const [noticias, setNoticias] = useState([]);
@@ -44,22 +45,24 @@ const PlayStation = () => {
       { id: 2, titulo: "PlayStation 5 supera los 50 millones de unidades vendidas", fecha: "Hace 1 día" },
       { id: 3, titulo: "Exclusivo: Avances del próximo juego de Naughty Dog", fecha: "Hace 3 días" }
     ];
-    
     setNoticias(noticiasIniciales);
-    
+
     const interval = setInterval(() => {
-      if (noticias.length > 0) {
-        const nuevaNoticia = {
-          id: noticias.length + 1,
-          titulo: `Actualización ${noticias.length + 1} - Nuevos contenidos disponibles`,
-          fecha: "Ahora mismo"
-        };
-        setNoticias(prev => [nuevaNoticia, ...prev.slice(0, 4)]);
-      }
+      setNoticias(prev => {
+        if (prev.length > 0) {
+          const nuevaNoticia = {
+            id: prev.length + 1,
+            titulo: `Actualización ${prev.length + 1} - Nuevos contenidos disponibles`,
+            fecha: "Ahora mismo"
+          };
+          return [nuevaNoticia, ...prev.slice(0, 4)];
+        }
+        return prev;
+      });
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [noticias.length]);
+  }, []);
 
   return (
     <div style={{
