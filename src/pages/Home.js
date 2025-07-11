@@ -58,6 +58,7 @@ const Home = () => {
       )
     );
   };
+<<<<<<< HEAD:src/pages/Home.js
   
 
   // 🚀 NUEVO: Live directo en la app
@@ -90,7 +91,7 @@ const Home = () => {
     setIsStreaming(false);
     setShowLive(false);
   };
-
+  
   return (
     <div className="home-container">
       {/* User en la esquina superior derecha */}
@@ -206,5 +207,10 @@ const Home = () => {
       </div>
     </div>
   );
+<<<<<<< HEAD:src/pages/Home.js
 };
+=======
+}
+
+>>>>>>> 53cb412e2197b5782294309140914dee918da112:src/components/Home.js
 export default Home;
