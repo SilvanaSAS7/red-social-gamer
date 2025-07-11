@@ -58,7 +58,6 @@ const Home = () => {
       )
     );
   };
-  };
 
   return (
     <div className="home-container">
@@ -155,6 +154,6 @@ const Home = () => {
       </div>
     </div>
   );
-
+}
 
 export default Home;
