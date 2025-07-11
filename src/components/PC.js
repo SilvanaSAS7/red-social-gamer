@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './console.css'; // Conservamos también este import si es necesario
 
-const PlayStation = () => {
+const PC = () => {
   const [noticias, setNoticias] = useState([]);
   
   const juegosPopulares = [
-    { id: 1, nombre: "God of War Ragnarök", imagen: "gow_ragnarok.jpg", url: "#" },
-    { id: 2, nombre: "Marvel's Spider-Man 2", imagen: "spiderman2.jpg", url: "#" },
-    { id: 3, nombre: "The Last of Us Part II", imagen: "tlou2.jpg", url: "#" },
-    { id: 4, nombre: "Horizon Forbidden West", imagen: "horizon.jpg", url: "#" },
-    { id: 5, nombre: "Gran Turismo 7", imagen: "gt7.jpg", url: "#" }
+    { id: 1, nombre: "Cyberpunk 2077", imagen: "cyberpunk.jpg", url: "#" },
+    { id: 2, nombre: "Baldur's Gate 3", imagen: "baldurs_gate.jpg", url: "#" },
+    { id: 3, nombre: "Counter-Strike 2", imagen: "cs2.jpg", url: "#" },
+    { id: 4, nombre: "Elden Ring", imagen: "elden_ring.jpg", url: "#" },
+    { id: 5, nombre: "Valorant", imagen: "valorant.jpg", url: "#" }
   ];
 
   const carruselSettings = {
@@ -41,33 +40,31 @@ const PlayStation = () => {
 
   useEffect(() => {
     const noticiasIniciales = [
-      { id: 1, titulo: "Nuevo DLC para God of War anunciado", fecha: "Hace 2 horas" },
-      { id: 2, titulo: "PlayStation 5 supera los 50 millones de unidades vendidas", fecha: "Hace 1 día" },
-      { id: 3, titulo: "Exclusivo: Avances del próximo juego de Naughty Dog", fecha: "Hace 3 días" }
+      { id: 1, titulo: "Nuevos drivers NVIDIA mejoran rendimiento en juegos AAA", fecha: "Hace 4 horas" },
+      { id: 2, titulo: "Steam alcanza récord de usuarios concurrentes", fecha: "Ayer" },
+      { id: 3, titulo: "Lanzamiento sorpresa de nuevo DLC para juego indie", fecha: "Hace 3 días" }
     ];
+    
     setNoticias(noticiasIniciales);
-
+    
     const interval = setInterval(() => {
-      setNoticias(prev => {
-        if (prev.length > 0) {
-          const nuevaNoticia = {
-            id: prev.length + 1,
-            titulo: `Actualización ${prev.length + 1} - Nuevos contenidos disponibles`,
-            fecha: "Ahora mismo"
-          };
-          return [nuevaNoticia, ...prev.slice(0, 4)];
-        }
-        return prev;
-      });
-    }, 30000);
+      if (noticias.length > 0) {
+        const nuevaNoticia = {
+          id: noticias.length + 1,
+          titulo: `Actualización ${noticias.length + 1} - Nuevos lanzamientos en PC`,
+          fecha: "Justo ahora"
+        };
+        setNoticias(prev => [nuevaNoticia, ...prev.slice(0, 4)]);
+      }
+    }, 25000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [noticias.length]);
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #003087 0%, #001a44 100%)',
-      color: 'white',
+      background: 'linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%)',
+      color: '#e0e0e0',
       padding: '25px',
       borderRadius: '15px',
       boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
@@ -77,53 +74,52 @@ const PlayStation = () => {
         textAlign: 'center',
         fontSize: '2.5rem',
         marginBottom: '30px',
-        textShadow: '0 2px 4px rgba(0,0,0,0.5)'
-      }}>PlayStation News</h1>
+        textShadow: '0 0 10px rgba(0, 195, 255, 0.7)'
+      }}>PC Gaming News</h1>
       
-      {/* Sección de Noticias */}
       <div style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: 'rgba(30, 30, 30, 0.7)',
         borderRadius: '12px',
         padding: '20px',
         marginBottom: '40px',
-        border: '1px solid rgba(255, 255, 255, 0.1)'
+        border: '1px solid rgba(0, 195, 255, 0.3)'
       }}>
         <h2 style={{
-          color: '#00b2ff',
-          borderBottom: '2px solid #00b2ff',
+          color: '#00c3ff',
+          borderBottom: '2px solid #00c3ff',
           paddingBottom: '10px',
           marginBottom: '20px'
-        }}>Últimas Noticias</h2>
+        }}>Noticias Recientes</h2>
         <div>
           {noticias.map(noticia => (
             <div key={noticia.id} style={{
-              background: 'rgba(0, 52, 135, 0.5)',
+              background: 'rgba(0, 0, 0, 0.4)',
               borderRadius: '8px',
               padding: '15px',
               marginBottom: '15px',
               transition: 'transform 0.3s ease',
-              borderLeft: '4px solid #00b2ff'
+              borderLeft: '4px solid #00c3ff'
             }}>
               <h3>{noticia.titulo}</h3>
-              <span style={{color: '#a0d0ff', fontSize: '0.85rem'}}>{noticia.fecha}</span>
+              <span style={{color: '#00c3ff', fontSize: '0.85rem'}}>{noticia.fecha}</span>
             </div>
           ))}
         </div>
       </div>
       
-      {/* Carrusel de Juegos Populares */}
       <div style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: 'rgba(30, 30, 30, 0.7)',
         borderRadius: '12px',
         padding: '25px',
-        border: '1px solid rgba(255, 255, 255, 0.1)'
+        border: '1px solid rgba(0, 195, 255, 0.3)'
       }}>
         <h2 style={{
-          color: '#ffcc00',
+          color: '#00c3ff',
           textAlign: 'center',
           marginBottom: '25px',
-          fontSize: '1.8rem'
-        }}>Juegos Populares</h2>
+          fontSize: '1.8rem',
+          textShadow: '0 0 10px rgba(0, 195, 255, 0.5)'
+        }}>Títulos Destacados</h2>
         <Slider {...carruselSettings}>
           {juegosPopulares.map(juego => (
             <div key={juego.id} style={{padding: '15px', textAlign: 'center'}}>
@@ -136,7 +132,7 @@ const PlayStation = () => {
                     height: '250px',
                     objectFit: 'cover',
                     borderRadius: '10px',
-                    border: '3px solid #ffffff',
+                    border: '3px solid #00c3ff',
                     boxShadow: '0 6px 12px rgba(0,0,0,0.4)'
                   }}
                 />
@@ -150,4 +146,4 @@ const PlayStation = () => {
   );
 };
 
-export default PlayStation;
+export default PC;

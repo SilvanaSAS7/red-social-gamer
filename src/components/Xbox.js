@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './console.css'; // Conservamos también este import si es necesario
 
-const PlayStation = () => {
+const Xbox = () => {
   const [noticias, setNoticias] = useState([]);
   
   const juegosPopulares = [
-    { id: 1, nombre: "God of War Ragnarök", imagen: "gow_ragnarok.jpg", url: "#" },
-    { id: 2, nombre: "Marvel's Spider-Man 2", imagen: "spiderman2.jpg", url: "#" },
-    { id: 3, nombre: "The Last of Us Part II", imagen: "tlou2.jpg", url: "#" },
-    { id: 4, nombre: "Horizon Forbidden West", imagen: "horizon.jpg", url: "#" },
-    { id: 5, nombre: "Gran Turismo 7", imagen: "gt7.jpg", url: "#" }
+    { id: 1, nombre: "Halo Infinite", imagen: "halo_infinite.jpg", url: "#" },
+    { id: 2, nombre: "Forza Horizon 5", imagen: "forza_horizon5.jpg", url: "#" },
+    { id: 3, nombre: "Starfield", imagen: "starfield.jpg", url: "#" },
+    { id: 4, nombre: "Gears 5", imagen: "gears5.jpg", url: "#" },
+    { id: 5, nombre: "Sea of Thieves", imagen: "sea_of_thieves.jpg", url: "#" }
   ];
 
   const carruselSettings = {
@@ -41,32 +40,30 @@ const PlayStation = () => {
 
   useEffect(() => {
     const noticiasIniciales = [
-      { id: 1, titulo: "Nuevo DLC para God of War anunciado", fecha: "Hace 2 horas" },
-      { id: 2, titulo: "PlayStation 5 supera los 50 millones de unidades vendidas", fecha: "Hace 1 día" },
-      { id: 3, titulo: "Exclusivo: Avances del próximo juego de Naughty Dog", fecha: "Hace 3 días" }
+      { id: 1, titulo: "Xbox Game Pass añade 5 nuevos juegos este mes", fecha: "Hace 3 horas" },
+      { id: 2, titulo: "Actualización de sistema mejora rendimiento en Series X", fecha: "Ayer" },
+      { id: 3, titulo: "Nuevo estudio de adquisición anunciado por Microsoft", fecha: "Hace 2 días" }
     ];
+    
     setNoticias(noticiasIniciales);
-
+    
     const interval = setInterval(() => {
-      setNoticias(prev => {
-        if (prev.length > 0) {
-          const nuevaNoticia = {
-            id: prev.length + 1,
-            titulo: `Actualización ${prev.length + 1} - Nuevos contenidos disponibles`,
-            fecha: "Ahora mismo"
-          };
-          return [nuevaNoticia, ...prev.slice(0, 4)];
-        }
-        return prev;
-      });
+      if (noticias.length > 0) {
+        const nuevaNoticia = {
+          id: noticias.length + 1,
+          titulo: `Actualización ${noticias.length + 1} - Nuevas ofertas en Xbox Store`,
+          fecha: "Recién actualizado"
+        };
+        setNoticias(prev => [nuevaNoticia, ...prev.slice(0, 4)]);
+      }
     }, 30000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [noticias.length]);
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #003087 0%, #001a44 100%)',
+      background: 'linear-gradient(135deg, #107c10 0%, #0a4d0a 100%)',
       color: 'white',
       padding: '25px',
       borderRadius: '15px',
@@ -78,9 +75,8 @@ const PlayStation = () => {
         fontSize: '2.5rem',
         marginBottom: '30px',
         textShadow: '0 2px 4px rgba(0,0,0,0.5)'
-      }}>PlayStation News</h1>
+      }}>Xbox News</h1>
       
-      {/* Sección de Noticias */}
       <div style={{
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
         borderRadius: '12px',
@@ -89,29 +85,28 @@ const PlayStation = () => {
         border: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <h2 style={{
-          color: '#00b2ff',
-          borderBottom: '2px solid #00b2ff',
+          color: '#9bf00b',
+          borderBottom: '2px solid #9bf00b',
           paddingBottom: '10px',
           marginBottom: '20px'
         }}>Últimas Noticias</h2>
         <div>
           {noticias.map(noticia => (
             <div key={noticia.id} style={{
-              background: 'rgba(0, 52, 135, 0.5)',
+              background: 'rgba(16, 124, 16, 0.5)',
               borderRadius: '8px',
               padding: '15px',
               marginBottom: '15px',
               transition: 'transform 0.3s ease',
-              borderLeft: '4px solid #00b2ff'
+              borderLeft: '4px solid #9bf00b'
             }}>
               <h3>{noticia.titulo}</h3>
-              <span style={{color: '#a0d0ff', fontSize: '0.85rem'}}>{noticia.fecha}</span>
+              <span style={{color: '#c0ff72', fontSize: '0.85rem'}}>{noticia.fecha}</span>
             </div>
           ))}
         </div>
       </div>
       
-      {/* Carrusel de Juegos Populares */}
       <div style={{
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
         borderRadius: '12px',
@@ -119,11 +114,14 @@ const PlayStation = () => {
         border: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <h2 style={{
-          color: '#ffcc00',
+          color: '#107c10',
           textAlign: 'center',
           marginBottom: '25px',
-          fontSize: '1.8rem'
-        }}>Juegos Populares</h2>
+          fontSize: '1.8rem',
+          backgroundColor: '#9bf00b',
+          padding: '8px',
+          borderRadius: '8px'
+        }}>Juegos Destacados</h2>
         <Slider {...carruselSettings}>
           {juegosPopulares.map(juego => (
             <div key={juego.id} style={{padding: '15px', textAlign: 'center'}}>
@@ -136,7 +134,7 @@ const PlayStation = () => {
                     height: '250px',
                     objectFit: 'cover',
                     borderRadius: '10px',
-                    border: '3px solid #ffffff',
+                    border: '3px solid #9bf00b',
                     boxShadow: '0 6px 12px rgba(0,0,0,0.4)'
                   }}
                 />
@@ -150,4 +148,4 @@ const PlayStation = () => {
   );
 };
 
-export default PlayStation;
+export default Xbox;

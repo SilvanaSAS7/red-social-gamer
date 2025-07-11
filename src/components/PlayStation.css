@@ -1,0 +1,104 @@
+/* PlayStation.css */
+.playstation-container {
+  background: linear-gradient(135deg, #003087 0%, #001a44 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.playstation-container h1 {
+  color: #ffffff;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.playstation-container .noticias-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.playstation-container .noticias-section h2 {
+  color: #00b2ff;
+  border-bottom: 2px solid #00b2ff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.playstation-container .noticia-item {
+  background: rgba(0, 52, 135, 0.5);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+  border-left: 4px solid #00b2ff;
+}
+
+.playstation-container .noticia-item:hover {
+  transform: translateX(5px);
+  background: rgba(0, 52, 135, 0.7);
+}
+
+.playstation-container .noticia-fecha {
+  color: #a0d0ff;
+  font-size: 0.85rem;
+}
+
+.playstation-container .juegos-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.playstation-container .juegos-section h2 {
+  color: #ffcc00;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+}
+
+.playstation-container .juego-item {
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.playstation-container .juego-item:hover {
+  transform: scale(1.05);
+}
+
+.playstation-container .juego-imagen {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.playstation-container .juego-nombre {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.playstation-container .slick-prev:before, 
+.playstation-container .slick-next:before {
+  color: #ffcc00;
+  font-size: 30px;
+}
+
+.playstation-container .slick-dots li button:before {
+  color: #ffffff;
+}
+
+.playstation-container .slick-dots li.slick-active button:before {
+  color: #ffcc00;
+}

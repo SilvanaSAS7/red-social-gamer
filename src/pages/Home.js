@@ -58,6 +58,7 @@ const Home = () => {
       )
     );
   };
+  };
 
   // 🚀 NUEVO: Live directo en la app
   const [showLive, setShowLive] = useState(false);
@@ -205,6 +206,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
+
 
 export default Home;

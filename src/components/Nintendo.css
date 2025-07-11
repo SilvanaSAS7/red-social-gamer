@@ -1,0 +1,107 @@
+/* Nintendo.css */
+.nintendo-container {
+  background: linear-gradient(135deg, #e60012 0%, #b0000e 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.nintendo-container h1 {
+  color: #ffffff;
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.nintendo-container .noticias-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nintendo-container .noticias-section h2 {
+  color: #ffde00;
+  border-bottom: 2px solid #ffde00;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.nintendo-container .noticia-item {
+  background: rgba(230, 0, 18, 0.5);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+  border-left: 4px solid #ffde00;
+}
+
+.nintendo-container .noticia-item:hover {
+  transform: translateX(5px);
+  background: rgba(230, 0, 18, 0.7);
+}
+
+.nintendo-container .noticia-fecha {
+  color: #ffed80;
+  font-size: 0.85rem;
+}
+
+.nintendo-container .juegos-section {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nintendo-container .juegos-section h2 {
+  color: #e60012;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  background-color: #ffde00;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.nintendo-container .juego-item {
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.nintendo-container .juego-item:hover {
+  transform: scale(1.05);
+}
+
+.nintendo-container .juego-imagen {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 3px solid #ffde00;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.nintendo-container .juego-nombre {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.nintendo-container .slick-prev:before, 
+.nintendo-container .slick-next:before {
+  color: #ffde00;
+  font-size: 30px;
+}
+
+.nintendo-container .slick-dots li button:before {
+  color: #ffffff;
+}
+
+.nintendo-container .slick-dots li.slick-active button:before {
+  color: #ffde00;
+}

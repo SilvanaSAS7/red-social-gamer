@@ -1,5 +1,4 @@
-// src/services/paypalService.js
-// Este archivo normalmente interactuaría con un backend que llama a PayPal API
+
 
 export const createPayment = async (amount) => {
   try {
