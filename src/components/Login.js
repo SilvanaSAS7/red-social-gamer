@@ -1,50 +1,56 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './login.css';
+import '../styles/login.css';
+import { loginUser } from '../utils/auth';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate('/');
-    } catch (error) {
-      setError(error.message);
+    const success = loginUser(email, password);
+    if (success) {
+      navigate('/home');
+    } else {
+      setError('Usuario o contraseña incorrectos');
     }
   };
 
   return (
-    <div>
-      <h2>Iniciar Sesión</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Email:</label>
+    <div className="login-container">
+      <div className="login-box">
+        <h2>Iniciar sesión</h2>
+        <form onSubmit={handleLogin}>
           <input
             type="email"
+            placeholder="Correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autoComplete="username"
           />
-        </div>
-        <div>
-          <label>Contraseña:</label>
           <input
             type="password"
+            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            autoComplete="current-password"
           />
-        </div>
-        <button type="submit">Iniciar Sesión</button>
-      </form>
+          {error && <p className="error">{error}</p>}
+          <button type="submit">Iniciar Sesión</button>
+        </form>
+        <p>
+          ¿No tienes cuenta?{' '}
+          <span
+            className="register-link"
+            onClick={() => navigate('/Register')}
+          >
+            Regístrate
+          </span>
+        </p>
+      </div>
     </div>
   );
 };
