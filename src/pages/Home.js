@@ -23,11 +23,19 @@ const Home = () => {
     },
   ]);
 
+
   const [newPost, setNewPost] = useState('');
+  const [showLive, setShowLive] = useState(false);
+  const videoRef = useRef(null);
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
-  };
+  } 
+
+  const goToStatistics = () => {
+    navigate('/statistics');
+  }
 
   const handlePost = () => {
     if (newPost.trim() === '') return;
@@ -44,25 +52,14 @@ const Home = () => {
   };
 
   const addReaction = (id, type) => {
-    setPosts(
-      posts.map((post) =>
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
         post.id === id
-          ? {
-              ...post,
-              reactions: {
-                ...post.reactions,
-                [type]: post.reactions[type] + 1,
-              },
-            }
+          ? { ...post, reactions: { ...post.reactions, [type]: post.reactions[type] + 1 } }
           : post
       )
     );
   };
-
-  // 🚀 NUEVO: Live directo en la app
-  const [showLive, setShowLive] = useState(false);
-  const videoRef = useRef(null);
-
   const startLive = async () => {
     setShowLive(true);
     try {

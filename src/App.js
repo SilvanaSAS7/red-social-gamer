@@ -1,14 +1,17 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Register from './components/Register';
 import PlayStation from './components/PlayStation';
+import Register from './components/Register';
 import Xbox from './components/Xbox';
 import PC from './components/PC';
+
 import Nintendo from './components/Nintendo';
+
 import Store from './pages/Store';
 import Cart from './pages/Cart';
+
+import Statistics from './pages/Statistics';
 
 
 const App = () => {
@@ -23,6 +26,7 @@ const App = () => {
       <Route path="/nintendo" element={<Nintendo />} />
       <Route path="/store" element={<Store />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/statistics" element={<Statistics />} />
     </Routes>
   );
 };
