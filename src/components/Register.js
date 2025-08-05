@@ -5,22 +5,24 @@ import { registerUser } from '../utils/auth';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const result = registerUser(name, email, password);
-    if (result) {
-      setSuccess('Registro exitoso. Redirigiendo a login...');
-      setTimeout(() => navigate('/login'), 2000);
-    } else {
-      setError('El correo ya está registrado');
-    }
-  };
+  const handleRegister = async (e) => {
+  e.preventDefault();
+  const result = await registerUser(username, email, password);
+  if (result.success) {
+    setSuccess('Registro exitoso. Redirigiendo a login...');
+    setError('');
+    setTimeout(() => navigate('/'), 2000);
+  } else {
+    setError(result.message || 'Error en el registro');
+    setSuccess('');
+  }
+};
 
   return (
     <div className="register-container">
@@ -30,8 +32,8 @@ const Register = () => {
           <input
             type="text"
             placeholder="Nombre completo"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <input

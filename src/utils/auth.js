@@ -1,30 +1,39 @@
-// Simula base de datos local usando localStorage
+// Registro
+export const registerUser = async (username, email, password) => {
+  try {
+    const response = await fetch('http://localhost/DRAVORA_API/Register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, email, password })
+    });
 
-export const loginUser = (email, password) => {
-  const users = JSON.parse(localStorage.getItem('dravora_users')) || [];
-  const user = users.find(
-    (u) => u.email === email && u.password === password
-  );
-  if (user) {
-    localStorage.setItem('dravora_currentUser', JSON.stringify(user));
-    return true;
+    const data = await response.json();
+    // Devuelve siempre un objeto con success y message
+    return { success: data.success, message: data.message || '' };
+  } catch (error) {
+    console.error("Error en el registro:", error);
+    return { success: false, message: "Error en el registro" };
   }
-  return false;
 };
 
-export const registerUser = (name, email, password) => {
-  let users = JSON.parse(localStorage.getItem('dravora_users')) || [];
-  const exists = users.some((u) => u.email === email);
-  if (exists) return false;
-  users.push({ name, email, password });
-  localStorage.setItem('dravora_users', JSON.stringify(users));
-  return true;
-};
+// Login
+export const loginUser = async (email, password) => {
+  try {
+    const response = await fetch('http://localhost/DRAVORA_API/Login.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
 
-export const logoutUser = () => {
-  localStorage.removeItem('dravora_currentUser');
-};
-
-export const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem('dravora_currentUser'));
+    const data = await response.json();
+    // Devuelve siempre un objeto con success y message
+    return { success: data.success, message: data.message || '' };
+  } catch (error) {
+    console.error("Error en el login:", error);
+    return { success: false, message: "Error en el login" };
+  }
 };
