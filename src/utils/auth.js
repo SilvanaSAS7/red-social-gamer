@@ -1,7 +1,7 @@
 // Registro
 export const registerUser = async (username, email, password) => {
   try {
-    const response = await fetch('http://localhost/DRAVORA_API/Register.php', {
+    const response = await fetch('http://localhost/dravora-api/register.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ export const registerUser = async (username, email, password) => {
 // Login
 export const loginUser = async (email, password) => {
   try {
-    const response = await fetch('http://localhost/DRAVORA_API/Login.php', {
+    const response = await fetch('http://localhost/dravora-api/login.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
