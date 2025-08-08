@@ -9,18 +9,23 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const success = loginUser(email, password);
-    if (success) {
+    const result = await loginUser(email, password);
+    if (result.success) {
       navigate('/home');
     } else {
-      setError('Usuario o contraseña incorrectos');
+      setError(result.message || 'Usuario o contraseña incorrectos');
     }
   };
 
   return (
     <div className="login-container">
+      <img
+      src="/imagenes/logo1sinfondo.png" // Cambia la ruta por la de tu imagen
+      alt="Logo"
+      className="login-floating-img"
+    />
       <div className="login-box">
         <h2>Iniciar sesión</h2>
         <form onSubmit={handleLogin}>

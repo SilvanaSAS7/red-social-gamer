@@ -68,3 +68,88 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+## Documentación de endpoints
+
+Esta sección describe los endpoints clave disponibles en el backend. La comunicación entre el frontend y el backend (PHP con MySQL) se realiza principalmente mediante peticiones HTTP (fetch).
+
+---
+
+### Base URL
+```
+http://localhost/DRAVORA_API/
+```
+
+---
+
+### 🔐 Autenticación
+
+#### Registro de Usuario
+- **Endpoint:** `POST /Register.php`
+- **Descripción:** Registra un nuevo usuario en la plataforma.
+- **Body (JSON):**
+```json
+{
+  "username": "gamer123",
+  "email": "correo@ejemplo.com",
+  "password": "123456"
+}
+```
+- **Respuesta Exitosa:**
+```json
+{
+  "success": true,
+  "message": "Usuario registrado correctamente"
+}
+```
+
+---
+
+#### Inicio de Sesión
+- **Endpoint:** `POST /Login.php`
+- **Descripción:** Autentica al usuario y permite el inicio de sesión.
+- **Body (JSON):**
+```json
+{
+  "username": "gamer123",
+  "password": "123456"
+}
+```
+- **Respuesta Exitosa:**
+```json
+{
+  "success": true,
+  "message": "Login exitoso",
+  "user": {
+    "id": 1,
+    "username": "gamer123"
+  }
+}
+```
+
+### Funcionalidades clave del proyecto
+
+- **Registro de usuario**: Los usuarios pueden registrarse proporcionando su nombre de usuario, correo electrónico y contraseña.
+- **Inicio de sesión**: Los usuarios registrados pueden iniciar sesión para acceder a las funciones principales de DRAVORA.
+- **Visualización de torneos**: Los usuarios pueden ver una lista de torneos disponibles (como Fortnite, Free Fire, Destiny) y consultar detalles.
+- **Acceso a tienda gamer**: Se ofrece una tienda en línea donde los usuarios pueden ver y comprar artículos relacionados con la red social y los videojuegos.
+- **Transmisiones en vivo**: Se proporciona una sección donde los usuarios pueden ver quién está transmitiendo en vivo, con opción de acceder a los streams.
+- **Gestión de usuarios (Admin)**: En versiones futuras se contempla que los administradores gestionen usuarios, contenido y actividades dentro de la red social.
+
+---
+
+### Estado actual
+
+Actualmente, los endpoints de la API de DRAVORA permiten el registro e inicio de sesión básico. En futuras ampliaciones se van a incluir:
+
+- Cierre de sesión (token JWT o sesiones PHP).
+- Gestión de perfiles.
+- Subida de imagen de perfil.
+- Interacción entre usuarios (amistades, mensajes).
+- Sistema de publicaciones y comentarios.
+
+

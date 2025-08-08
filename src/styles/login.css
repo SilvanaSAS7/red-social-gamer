@@ -62,3 +62,13 @@
   color: #ff4d4f;
   margin-top: 0.5rem;
 }
+
+.login-floating-img {
+  position: absolute;
+  top: 60px;      /* Ajusta según lo necesites */
+  right: 710px;    /* Ajusta según lo necesites */
+  width: 110px;    /* Ajusta el tamaño */
+  height: auto;
+  z-index: 10;
+  pointer-events: none; /* Para que no interfiera con los clics */
+}

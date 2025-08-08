@@ -90,7 +90,7 @@ const Home = () => {
       <div className="user-container right">
         <div className="user-display" onClick={toggleMenu}>
           <img
-            src="https://i.pravatar.cc/40?img=5"
+            src=""
             alt="User Profile"
             className="user-avatar"
           />
@@ -106,7 +106,7 @@ const Home = () => {
             </div>
             <div onClick={startLive}>🎥 Live</div>
             <div onClick={() => navigate('/settings')}>⚙️ Configuración</div>
-            <div onClick={() => navigate('../components/login')}>🚪 Cerrar Sesión</div>
+            <div onClick={() => navigate('../components/')}>🚪 Cerrar Sesión</div>
           </div>
         )}
       </div>
