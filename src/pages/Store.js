@@ -108,19 +108,20 @@ const Store = () => {
   };
 
   return (
-    <div style={{background:'#f6f8fa', minHeight:'100vh', padding:'32px'}}>
+    <div style={{background:'#181028', minHeight:'100vh', padding:'32px'}}>
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'24px'}}>
-        <h1 style={{textAlign:'center', color:'#2d3a4a'}}>Tienda Online</h1>
+        <h1 style={{textAlign:'center', color:'#b084f7'}}>Tienda Online</h1>
         <button onClick={() => navigate('/cart')} style={{
-          background:'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
-          color:'#2d3a4a',
+          background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
+          color:'#fff',
           border:'none',
           borderRadius:'8px',
           padding:'10px 24px',
           fontWeight:'bold',
-          boxShadow:'0 1px 4px rgba(0,0,0,0.08)',
+          boxShadow:'0 1px 8px rgba(176,132,247,0.18)',
           cursor:'pointer',
-          fontSize:'1rem'
+          fontSize:'1rem',
+          letterSpacing:'1px'
         }}>Ir al carrito 🛒</button>
       </div>
       {notification && (
@@ -129,11 +130,11 @@ const Store = () => {
           top:'24px',
           left:'50%',
           transform:'translateX(-50%)',
-          background:'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
-          color:'#2d3a4a',
+          background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
+          color:'#fff',
           padding:'12px 32px',
           borderRadius:'12px',
-          boxShadow:'0 2px 8px rgba(0,0,0,0.12)',
+          boxShadow:'0 2px 12px rgba(176,132,247,0.18)',
           fontWeight:'bold',
           fontSize:'1rem',
           zIndex:1000
@@ -142,34 +143,35 @@ const Store = () => {
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'24px'}}>
         {products.map(product => (
           <div key={product.id} style={{
-            background:'#fff',
+            background:'#231942',
             borderRadius:'16px',
-            boxShadow:'0 2px 12px rgba(0,0,0,0.10)',
+            boxShadow:'0 2px 16px rgba(176,132,247,0.10)',
             padding:'24px',
             display:'flex',
             flexDirection:'column',
             alignItems:'center',
             transition:'transform 0.2s',
             cursor:'pointer',
-            border:'1px solid #e3e7ee'
+            border:'1.5px solid #b084f7'
           }}>
             <img src={product.image} alt={product.name} style={{width:'80px', marginBottom:'16px'}} />
-            <h2 style={{color:'#2d3a4a', fontSize:'1.2rem', margin:'8px 0'}}>{product.name}</h2>
-            <p style={{color:'#4a5568', fontSize:'0.95rem', marginBottom:'8px'}}>{product.description}</p>
-            <p style={{fontWeight:'bold', color:'#1a202c', fontSize:'1.1rem'}}>Precio: ${product.price}</p>
-            <p style={{color:'#718096', fontSize:'0.9rem'}}>Categoría: {product.category}</p>
-            <p style={{color:'#718096', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>
+            <h2 style={{color:'#b084f7', fontSize:'1.2rem', margin:'8px 0'}}>{product.name}</h2>
+            <p style={{color:'#e0d6f7', fontSize:'0.95rem', marginBottom:'8px'}}>{product.description}</p>
+            <p style={{fontWeight:'bold', color:'#fff', fontSize:'1.1rem'}}>Precio: ${product.price}</p>
+            <p style={{color:'#b084f7', fontSize:'0.9rem'}}>Categoría: {product.category}</p>
+            <p style={{color:'#e0d6f7', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>
             <button style={{
               marginTop:'16px',
-              background:'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
-              color:'#2d3a4a',
+              background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
+              color:'#fff',
               border:'none',
               borderRadius:'8px',
               padding:'10px 24px',
               fontWeight:'bold',
-              boxShadow:'0 1px 4px rgba(0,0,0,0.08)',
+              boxShadow:'0 1px 8px rgba(176,132,247,0.18)',
               cursor:'pointer',
-              fontSize:'1rem'
+              fontSize:'1rem',
+              letterSpacing:'1px'
             }} onClick={() => handleAdd(product)}>Agregar al carrito</button>
           </div>
         ))}

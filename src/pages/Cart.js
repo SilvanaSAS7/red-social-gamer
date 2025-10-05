@@ -189,19 +189,19 @@ const Cart = () => {
   };
 
   return (
-    <div style={{background:'#f6f8fa', minHeight:'100vh', padding:'32px'}}>
-      <h2 style={{textAlign:'center', color:'#2d3a4a', marginBottom:'32px'}}>Carrito</h2>
+    <div style={{background:'#181028', minHeight:'100vh', padding:'32px'}}>
+      <h2 style={{textAlign:'center', color:'#b084f7', marginBottom:'32px'}}>Carrito</h2>
       {notification && (
         <div style={{
           position:'fixed',
           top:'24px',
           left:'50%',
           transform:'translateX(-50%)',
-          background:'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
-          color:'#2d3a4a',
+          background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
+          color:'#fff',
           padding:'12px 32px',
           borderRadius:'12px',
-          boxShadow:'0 2px 8px rgba(0,0,0,0.12)',
+          boxShadow:'0 2px 12px rgba(176,132,247,0.18)',
           fontWeight:'bold',
           fontSize:'1rem',
           zIndex:1000
@@ -209,68 +209,71 @@ const Cart = () => {
       )}
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(320px, 1fr))', gap:'24px'}}>
         {cartProducts.length === 0 ? (
-          <div style={{gridColumn:'1/-1', textAlign:'center', color:'#718096', fontSize:'1.2rem'}}>Tu carrito está vacío.</div>
+          <div style={{gridColumn:'1/-1', textAlign:'center', color:'#b084f7', fontSize:'1.2rem'}}>Tu carrito está vacío.</div>
         ) : (
           cartProducts.map((product) => (
             <div key={product.id} style={{
-              background:'#fff',
+              background:'#231942',
               borderRadius:'16px',
-              boxShadow:'0 2px 12px rgba(0,0,0,0.10)',
+              boxShadow:'0 2px 16px rgba(176,132,247,0.10)',
               padding:'24px',
               display:'flex',
               flexDirection:'column',
               alignItems:'center',
-              border:'1px solid #e3e7ee',
+              border:'1.5px solid #b084f7',
               position:'relative'
             }}>
               <img src={product.image} alt={product.name} style={{width:'80px', marginBottom:'16px'}} />
-              <h3 style={{color:'#2d3a4a', fontSize:'1.1rem', margin:'8px 0'}}>{product.name}</h3>
-              <p style={{color:'#4a5568', fontSize:'0.95rem', marginBottom:'8px'}}>{product.description}</p>
-              <p style={{fontWeight:'bold', color:'#1a202c', fontSize:'1.05rem'}}>Precio: ${product.price}</p>
-              <p style={{color:'#718096', fontSize:'0.9rem'}}>Categoría: {product.category}</p>
-              <p style={{color:'#718096', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>
+              <h3 style={{color:'#b084f7', fontSize:'1.1rem', margin:'8px 0'}}>{product.name}</h3>
+              <p style={{color:'#e0d6f7', fontSize:'0.95rem', marginBottom:'8px'}}>{product.description}</p>
+              <p style={{fontWeight:'bold', color:'#fff', fontSize:'1.05rem'}}>Precio: ${product.price}</p>
+              <p style={{color:'#b084f7', fontSize:'0.9rem'}}>Categoría: {product.category}</p>
+              <p style={{color:'#e0d6f7', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>
               <div style={{width:'100%', display:'flex', flexDirection:'column', alignItems:'center', marginTop:'12px'}}>
                 <BarcodeGeneratot value={product.id} style={{background:'linear-gradient(90deg, #ffe259 0%, #ffa751 100%)', borderRadius:'8px', padding:'8px'}} />
               </div>
               <div style={{display:'flex', gap:'10px', marginTop:'12px'}}>
                 <button onClick={() => navigate('/store')} style={{
-                  background:'#e3ffe7',
-                  color:'#2d3a4a',
-                  border:'none',
-                  borderRadius:'8px',
-                  padding:'8px 16px',
-                  fontWeight:'bold',
-                  cursor:'pointer',
-                  fontSize:'0.95rem'
-                }}>Ver en tienda</button>
-                <button onClick={() => handleRemove(product.id, product.name)} style={{
-                  background:'linear-gradient(90deg, #ffdde1 0%, #ee9ca7 100%)',
+                  background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
                   color:'#fff',
                   border:'none',
                   borderRadius:'8px',
                   padding:'8px 16px',
                   fontWeight:'bold',
                   cursor:'pointer',
-                  fontSize:'0.95rem'
+                  fontSize:'0.95rem',
+                  letterSpacing:'1px'
+                }}>Ver en tienda</button>
+                <button onClick={() => handleRemove(product.id, product.name)} style={{
+                  background:'linear-gradient(90deg, #ffdde1 0%, #ee9ca7 100%)',
+                  color:'#231942',
+                  border:'none',
+                  borderRadius:'8px',
+                  padding:'8px 16px',
+                  fontWeight:'bold',
+                  cursor:'pointer',
+                  fontSize:'0.95rem',
+                  letterSpacing:'1px'
                 }}>Eliminar</button>
               </div>
             </div>
           ))
         )}
       </div>
-      <h3 style={{textAlign:'right', color:'#2d3a4a', marginTop:'32px'}}>Total: ${total}</h3>
+      <h3 style={{textAlign:'right', color:'#b084f7', marginTop:'32px'}}>Total: ${total}</h3>
       {cartProducts.length > 0 && (
         <div style={{textAlign:'right', marginTop:'24px'}}>
           <button onClick={handleGeneralPay} style={{
-            background:'linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)',
-            color:'#2d3a4a',
+            background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
+            color:'#fff',
             border:'none',
             borderRadius:'8px',
             padding:'12px 32px',
             fontWeight:'bold',
             fontSize:'1.1rem',
-            boxShadow:'0 1px 4px rgba(0,0,0,0.08)',
-            cursor:'pointer'
+            boxShadow:'0 1px 8px rgba(176,132,247,0.18)',
+            cursor:'pointer',
+            letterSpacing:'1px'
           }}>Pagar</button>
         </div>
       )}

@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <img
-      src="/imagenes/logo1sinfondo.png" // Cambia la ruta por la de tu imagen
+      src="/imagenes/logo1sinfondo.png" 
       alt="Logo"
       className="login-floating-img"
     />

@@ -1,0 +1,69 @@
+name: Blue/Green Deployment Strategy 🚀
+
+on:
+  push:
+    branches:
+      - main  # El workflow se activa con un push a la rama principal
+
+jobs:
+  # --- JOB 1: Construye y prueba la aplicación ---
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js (o tu entorno)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Instalar dependencias
+        run: npm install # Reemplaza con tu comando de instalación
+
+      - name: Correr pruebas unitarias
+        run: npm test # Reemplaza con tu comando de pruebas
+
+  # --- JOB 2: Despliega el código al entorno INACTIVO ('Green') ---
+  deploy_to_green:
+    runs-on: ubuntu-latest
+    needs: build_and_test # Depende del éxito del job anterior
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: 🛰️ Desplegando a entorno Green
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Iniciando despliegue en el entorno 'Green'..."
+            cd /ruta/a/tu/app/green
+            git pull origin main
+            npm install --production
+            pm2 restart app-green # Reinicia la aplicación en el puerto 'green'
+            echo "✅ Despliegue en 'Green' completado."
+
+            # --- JOB 3: Espera aprobación y cambia el tráfico a 'Green' ---
+  promote_to_production:
+    runs-on: ubuntu-latest
+    needs: deploy_to_green
+    environment:
+      name: production
+      # 👇 CORRECCIÓN AQUÍ: Usa tu IP o dominio directamente
+      url: http://localhost:3000/
+    steps:
+      - name: 🛡️ Cambiando el tráfico a 'Green' para hacerlo 'Blue' (activo)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "Cambiando puntero del balanceador de carga/proxy hacia 'Green'..."
+            # Este es un script simulado. En un caso real, cambiarías la configuración
+            # de Nginx, Apache, o tu balanceador de carga.
+            ln -sfn /ruta/a/tu/app/green /ruta/a/tu/app/live
+            echo "🚀 ¡El entorno 'Green' ahora es el entorno de producción ('Blue')!"
