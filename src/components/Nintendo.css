@@ -1,107 +1,172 @@
-/* Nintendo.css */
-.nintendo-container {
-  background: linear-gradient(135deg, #e60012 0%, #b0000e 100%);
-  color: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+/* ...existing code... */
+/* Nintendo.css — nuevo diseño y paleta (rojo / blanco / azul) */
+
+:root{
+  --bg-1: #fff5f5;
+  --bg-2: #ffecec;
+  --card: #ffffff;
+  --muted: #6b6b6b;
+  --accent: #e60012; /* rojo Nintendo */
+  --accent-2: #0b5cff; /* azul */
+  --glass: rgba(255,255,255,0.6);
+  --shadow: 0 8px 30px rgba(13,13,13,0.12);
+  --radius: 16px;
+  --font: 'Rubik', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-.nintendo-container h1 {
-  color: #ffffff;
+.nintendo-container{
+  font-family: var(--font);
+  max-width: 1100px;
+  margin: 32px auto;
+  padding: 28px;
+  background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+  color: #161616;
+}
+
+/* Encabezado */
+.nintendo-container h1{
+  margin: 0 0 22px 0;
+  font-size: 2.4rem;
   text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  color: var(--accent);
+  letter-spacing: 1px;
+  font-weight: 700;
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(230,0,18,0.08), rgba(11,92,255,0.03));
+  box-shadow: 0 6px 18px rgba(230,0,18,0.06);
 }
 
-.nintendo-container .noticias-section {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
+/* Secciones */
+.nintendo-container .noticias-section,
+.nintendo-container .juegos-section{
+  background: var(--card);
+  border-radius: var(--radius);
   padding: 20px;
-  margin-bottom: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 28px;
+  border: 1px solid rgba(11,92,255,0.06);
+  display: block;
 }
 
-.nintendo-container .noticias-section h2 {
-  color: #ffde00;
-  border-bottom: 2px solid #ffde00;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+/* Títulos de sección */
+.nintendo-container .noticias-section h2,
+.nintendo-container .juegos-section h2{
+  margin: 0 0 14px 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.nintendo-container .noticia-item {
-  background: rgba(230, 0, 18, 0.5);
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  transition: transform 0.3s ease;
-  border-left: 4px solid #ffde00;
+/* Banda pequeña de color junto al título */
+.nintendo-container .noticias-section h2::before,
+.nintendo-container .juegos-section h2::before{
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  display: inline-block;
 }
+.nintendo-container .noticias-section h2::before{ background: var(--accent); }
+.nintendo-container .juegos-section h2::before{ background: var(--accent-2); }
 
-.nintendo-container .noticia-item:hover {
-  transform: translateX(5px);
-  background: rgba(230, 0, 18, 0.7);
-}
-
-.nintendo-container .noticia-fecha {
-  color: #ffed80;
-  font-size: 0.85rem;
-}
-
-.nintendo-container .juegos-section {
-  background-color: rgba(0, 0, 0, 0.3);
+/* Items de noticias */
+.nintendo-container .noticia-item{
+  padding: 14px;
+  margin-bottom: 12px;
   border-radius: 12px;
-  padding: 25px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(11,92,255,0.02), rgba(230,0,18,0.01));
+  border: 1px solid rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.nintendo-container .noticia-item:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(11,92,255,0.06);
 }
 
-.nintendo-container .juegos-section h2 {
-  color: #e60012;
+.nintendo-container .noticia-titulo{
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+}
+.nintendo-container .noticia-fecha{
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Grid de juegos */
+.nintendo-container .juegos-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+/* Item de juego */
+.nintendo-container .juego-item{
+  background: linear-gradient(180deg, #fff 0%, #fbfbfb 100%);
+  padding: 12px;
+  border-radius: 12px;
   text-align: center;
-  margin-bottom: 25px;
-  font-size: 1.8rem;
-  background-color: #ffde00;
-  padding: 8px;
-  border-radius: 8px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms;
+  border: 1px solid rgba(11,92,255,0.06);
+  cursor: pointer;
+}
+.nintendo-container .juego-item:hover{
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 36px rgba(230,0,18,0.06);
+  border-color: rgba(230,0,18,0.12);
 }
 
-.nintendo-container .juego-item {
-  padding: 15px;
-  text-align: center;
-  transition: transform 0.3s ease;
-}
-
-.nintendo-container .juego-item:hover {
-  transform: scale(1.05);
-}
-
-.nintendo-container .juego-imagen {
+/* Imagen del juego */
+.nintendo-container .juego-imagen{
   width: 100%;
-  height: 250px;
+  height: 160px;
   object-fit: cover;
   border-radius: 10px;
-  border: 3px solid #ffde00;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+  border: 2px solid transparent;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.nintendo-container .juego-item:hover .juego-imagen{
+  border-color: var(--accent);
+  box-shadow: 0 10px 28px rgba(230,0,18,0.08);
 }
 
-.nintendo-container .juego-nombre {
-  font-weight: bold;
-  margin-top: 15px;
-  font-size: 1.1rem;
-  color: #ffffff;
+.nintendo-container .juego-nombre{
+  margin-top: 10px;
+  font-weight: 600;
+  color: #222;
+  font-size: 1rem;
 }
 
-.nintendo-container .slick-prev:before, 
-.nintendo-container .slick-next:before {
-  color: #ffde00;
-  font-size: 30px;
+/* Controles del slider (slick) adaptados al nuevo tema */
+.nintendo-container .slick-prev:before,
+.nintendo-container .slick-next:before{
+  color: var(--accent-2);
+  font-size: 22px;
+}
+.nintendo-container .slick-prev:hover:before,
+.nintendo-container .slick-next:hover:before{
+  color: var(--accent);
+}
+.nintendo-container .slick-dots li button:before{
+  color: rgba(0,0,0,0.25);
+}
+.nintendo-container .slick-dots li.slick-active button:before{
+  color: var(--accent);
 }
 
-.nintendo-container .slick-dots li button:before {
-  color: #ffffff;
+/* Responsive pequeños dispositivos */
+@media (max-width: 600px){
+  .nintendo-container{ padding: 18px; }
+  .nintendo-container h1{ font-size: 1.6rem; }
+  .nintendo-container .juego-imagen{ height: 130px; }
 }
-
-.nintendo-container .slick-dots li.slick-active button:before {
-  color: #ffde00;
-}
+ /* ...existing code... */
