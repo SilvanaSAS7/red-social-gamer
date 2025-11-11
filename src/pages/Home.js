@@ -112,7 +112,7 @@ const Home = () => {
             </div>
             <div onClick={startLive}>🎥 Live</div>
             <div onClick={() => navigate('/settings')}>⚙️ Configuración</div>
-            <div onClick={() => navigate('../components/')}>🚪 Cerrar Sesión</div>
+            <div onClick={() => navigate('/')}>🚪 Cerrar Sesión</div>
           </div>
         )}
       </div>
@@ -121,7 +121,7 @@ const Home = () => {
       {showLive && (
         <div className="modal-overlay">
           <div className="modal-content live">
-            <h2>🔴 Transmitiendo en Vivo</h2>
+            <h2>🔴 Transmitiendo en vivo</h2>
             <video
               ref={videoRef}
               autoPlay
@@ -137,7 +137,7 @@ const Home = () => {
         </div>
       )}
 
-      {/* Más espacio entre user y barra gamer */}
+      {/* Espacio entre user y barra gamer */}
       <div style={{ height: '2rem' }}></div>
 
       {/* Barra gamer de consolas */}

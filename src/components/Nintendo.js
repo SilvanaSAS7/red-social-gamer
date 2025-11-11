@@ -48,17 +48,11 @@ const Nintendo = () => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1
-        }
+        settings: { slidesToShow: 2, slidesToScroll: 1 }
       },
       {
         breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
+        settings: { slidesToShow: 1, slidesToScroll: 1 }
       }
     ]
   };
@@ -86,100 +80,133 @@ const Nintendo = () => {
     return () => clearInterval(interval);
   }, [noticias.length]);
 
-  // Filtrar noticias que incluyan "Nintendo" en el título (no sensible a mayúsculas)
-  const noticiasFiltradas = noticias.filter(noticia => noticia.titulo.toLowerCase().includes('nintendo'));
+  const noticiasFiltradas = noticias.filter(noticia =>
+    noticia.titulo.toLowerCase().includes('nintendo')
+  );
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #e60012 0%, #b0000e 100%)',
+      background: 'linear-gradient(145deg, #1e1e2f 0%, #111122 100%)',
       color: 'white',
-      padding: '25px',
-      borderRadius: '15px',
-      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
+      padding: '35px',
+      borderRadius: '20px',
+      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.6)',
       minHeight: '100vh',
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'flex-start'
+      justifyContent: 'flex-start',
+      backdropFilter: 'blur(10px)',
+      fontFamily: 'Poppins, sans-serif'
     }}>
       <h1 style={{
-        color: '#ffffff',
+        color: '#ffffffff',
         textAlign: 'center',
-        fontSize: '2.5rem',
-        marginBottom: '30px',
-        textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+        fontSize: '2.8rem',
+        marginBottom: '40px',
+        textShadow: '0 4px 12px rgba(214, 95, 244, 1)',
+        letterSpacing: '1.5px'
       }}>Nintendo News</h1>
-      {/* Sección de Noticias filtradas */}
+
+      {/* Noticias */}
       <div style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: '12px',
-        padding: '20px',
-        marginBottom: '20px',
-        border: '1px solid rgba(255, 255, 255, 0.1)'
+        background: 'rgba(255, 255, 255, 0.08)',
+        borderRadius: '18px',
+        padding: '25px',
+        marginBottom: '40px',
+        border: '1px solid rgba(138, 240, 255, 0.2)',
+        boxShadow: 'inset 0 0 20px rgba(138, 240, 255, 0.05)'
       }}>
         <h2 style={{
-          color: '#ffde00',
-          borderBottom: '2px solid #ffde00',
+          color: '#c77dff',
+          textAlign: 'center',
+          fontSize: '1.9rem',
+          borderBottom: '2px solid #c77dff',
           paddingBottom: '10px',
-          marginBottom: '20px'
-        }}>Noticias Recientes</h2>
-        <div>
-          {noticiasFiltradas.length === 0 ? (
-            <div style={{color:'#ffed80', textAlign:'center'}}>No hay noticias de Nintendo.</div>
-          ) : (
-            noticiasFiltradas.slice(0, Math.max(3, noticiasFiltradas.length)).map(noticia => (
-              <div key={noticia.id} style={{
-                background: 'rgba(230, 0, 18, 0.5)',
-                borderRadius: '8px',
-                padding: '15px',
-                marginBottom: '15px',
-                transition: 'transform 0.3s ease',
-                borderLeft: '4px solid #ffde00'
-              }}>
-                <h3>
-                  <a href={noticia.url} target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', textDecoration: 'underline' }}>
-                    {noticia.titulo}
-                  </a>
-                </h3>
-                <span style={{color: '#ffed80', fontSize: '0.85rem'}}>{noticia.fecha}</span>
-              </div>
-            ))
-          )}
-        </div>
+          marginBottom: '25px',
+          letterSpacing: '1px'
+        }}>Noticias recientes</h2>
+
+        {noticiasFiltradas.length === 0 ? (
+          <div style={{ color: '#8af0ff', textAlign: 'center' }}>No hay noticias de Nintendo.</div>
+        ) : (
+          noticiasFiltradas.slice(0, Math.max(3, noticiasFiltradas.length)).map(noticia => (
+            <div key={noticia.id} style={{
+              background: 'linear-gradient(90deg, rgba(138,240,255,0.15), rgba(199,125,255,0.15))',
+              borderRadius: '10px',
+              padding: '18px',
+              marginBottom: '18px',
+              borderLeft: '5px solid #c77dff',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseOver={e => e.currentTarget.style.transform = 'translateX(5px)'}
+            onMouseOut={e => e.currentTarget.style.transform = 'translateX(0)'}>
+              <h3>
+                <a href={noticia.url} target="_blank" rel="noopener noreferrer" style={{
+                  color: '#ffffff',
+                  textDecoration: 'none',
+                  fontWeight: '600'
+                }}>{noticia.titulo}</a>
+              </h3>
+              <span style={{ color: '#8af0ff', fontSize: '0.9rem' }}>{noticia.fecha}</span>
+            </div>
+          ))
+        )}
       </div>
+
       {/* Carrusel de Juegos Exclusivos */}
       <div style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: '12px',
-        padding: '25px',
-        border: '1px solid rgba(255, 255, 255, 0.1)'
+        background: 'linear-gradient(145deg, rgba(40,40,60,0.85), rgba(25,25,45,0.95))',
+        borderRadius: '20px',
+        padding: '35px',
+        border: '1px solid rgba(138, 240, 255, 0.1)',
+        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.6)'
       }}>
         <h2 style={{
-          color: '#e60012',
+          color: '#c77dff',
           textAlign: 'center',
-          marginBottom: '25px',
-          fontSize: '1.8rem',
-          backgroundColor: '#ffde00',
-          padding: '8px',
-          borderRadius: '8px'
-        }}>Juegos Exclusivos</h2>
+          marginBottom: '30px',
+          fontSize: '2rem',
+          background: 'linear-gradient(90deg, rgba(138,240,255,0.15), rgba(199,125,255,0.15))',
+          padding: '10px',
+          borderRadius: '10px',
+          border: '1px solid rgba(138, 240, 255, 0.2)'
+        }}>Juegos exclusivos</h2>
+
         <Slider {...carruselSettings}>
           {juegosPopulares.map(juego => (
-            <div key={juego.id} style={{padding: '15px', textAlign: 'center'}}>
-              <a href={juego.url} target="_blank" rel="noopener noreferrer" style={{textDecoration: 'none', color: '#333'}}>
-                <img 
+            <div key={juego.id} style={{ padding: '15px', textAlign: 'center' }}>
+              <a href={juego.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#fff' }}>
+                <img
                   src={juego.imagen}
                   alt={juego.nombre}
                   style={{
                     width: '100%',
-                    height: '250px',
+                    height: '260px',
                     objectFit: 'cover',
-                    borderRadius: '10px',
-                    border: '3px solid #ffde00',
-                    boxShadow: '0 6px 12px rgba(0,0,0,0.4)'
+                    borderRadius: '15px',
+                    border: '2px solid #8af0ff',
+                    boxShadow: '0 8px 25px rgba(0,0,0,0.5)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseOver={e => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.borderColor = '#c77dff';
+                    e.currentTarget.style.boxShadow = '0 10px 30px rgba(199,125,255,0.3)';
+                  }}
+                  onMouseOut={e => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.borderColor = '#8af0ff';
+                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.5)';
                   }}
                 />
-                <p style={{fontWeight: 'bold', marginTop: '15px', fontSize: '1.1rem', color: '#ffffff'}}>{juego.nombre}</p>
+                <p style={{
+                  fontWeight: '600',
+                  marginTop: '15px',
+                  fontSize: '1.2rem',
+                  color: '#ffffff',
+                  textShadow: '0 0 10px rgba(138, 240, 255, 0.4)'
+                }}>{juego.nombre}</p>
               </a>
             </div>
           ))}
