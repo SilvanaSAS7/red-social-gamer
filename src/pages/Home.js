@@ -21,6 +21,12 @@ const Home = () => {
       reactions: { like: 5, fire: 2, game: 1 },
       isLive: true,
     },
+    {
+      id: 3,
+      user: 'Novarosa77',
+      content: '¿Qué les parece la Switch 2? La verdad yo me quedo con la primera',
+      reactions: { like: 16, fire: 3, game: 8 },
+    },
   ]);
 
 
@@ -160,6 +166,13 @@ const Home = () => {
         >
           Nintendo
         </div>
+      </div>
+
+      {/* Botón rápido a Directo */}
+      <div style={{ marginTop: 16 }}>
+        <button onClick={() => navigate('/directo')} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
+          🎥 Ir a Directo
+        </button>
       </div>
 
       {/* Nueva publicación */}

@@ -1,0 +1,43 @@
+name: Deploy Firebase Functions (Livepeer bridge)
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies for functions
+        working-directory: ./functions
+        run: |
+          npm ci
+
+      - name: Install firebase-tools
+        run: npm install -g firebase-tools
+
+      - name: Configure Firebase functions config (livepeer key)
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
+          LIVEPEER_KEY: ${{ secrets.LIVEPEER_KEY }}
+        run: |
+          # Set the livepeer key in functions config for the target project
+          firebase functions:config:set livepeer.key="$LIVEPEER_KEY" --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN"
+
+      - name: Deploy functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_PROJECT: ${{ secrets.FIREBASE_PROJECT }}
+        run: |
+          firebase deploy --only functions --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN"
