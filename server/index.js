@@ -167,4 +167,13 @@ async function startPollingCandidates(localId, streamId, lpSessionId) {
 }
 
 const PORT = process.env.PORT || 4000;
+// If there's a livepeer router file, mount it under /api/livepeer to offer a simpler API surface
+try {
+  // eslint-disable-next-line global-require
+  const livepeerRouter = require('./livepeer');
+  app.use('/api/livepeer', livepeerRouter);
+} catch (e) {
+  // ignore if not present
+}
+
 app.listen(PORT, () => console.log(`Livepeer WebRTC bridge listening on ${PORT}`));

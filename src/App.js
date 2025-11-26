@@ -12,6 +12,9 @@ import Store from './pages/Store';
 import Cart from './pages/Cart';
 
 import Statistics from './pages/Statistics';
+import BroadcasterManual from './components/BroadcasterManual';
+import Watch from './pages/Watch';
+import ImageGallery from './components/ImageGallery';
 
 
 const App = () => {
@@ -27,6 +30,9 @@ const App = () => {
       <Route path="/store" element={<Store />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/statistics" element={<Statistics />} />
+      <Route path="/live" element={<BroadcasterManual />} />
+      <Route path="/watch/:playbackId" element={<Watch />} />
+  <Route path="/gallery" element={<ImageGallery />} />
     </Routes>
   );
 };

@@ -5,93 +5,93 @@ import { useNavigate } from 'react-router-dom';
 const products = [
   {
     id: '1',
-    name: 'PlayStation 5',
-    description: 'Consola de última generación de Sony',
-    price: 599.99,
-    image: '/public/logo512.png',
-    category: 'Consolas',
-    compatibility: ['PlayStation'],
+    name: 'Sudadera clasica ',
+    description: 'Sudadera con capucha de alta calidad',
+    price: 59.99,
+    image: '/imagenes/Gemini_Generated_Image_tbqd24tbqd24tbqd.png',
+    category: 'Ropa',
+    
   },
   {
     id: '2',
-    name: 'Xbox Series X',
-    description: 'Consola potente de Microsoft',
-    price: 579.99,
-    image: '/public/logo512.png',
-    category: 'Consolas',
-    compatibility: ['Xbox'],
+    name: 'Shorts casuales',
+    description: 'Shorts cómodos para uso diario',
+    price: 29.99,
+    image: '/imagenes/Gemini_Generated_Image_txdrqjtxdrqjtxdr.png',
+    category: 'Ropa',
+    
   },
   {
     id: '3',
-    name: 'Nintendo Switch OLED',
-    description: 'Versión mejorada de la Switch',
-    price: 349.99,
-    image: '/public/logo512.png',
-    category: 'Consolas',
-    compatibility: ['Nintendo'],
+    name: 'Playera cuello redondo',
+    description: 'Playera de algodón suave y transpirable',
+    price: 14.99,
+    image: '/imagenes/Gemini_Generated_Image_57cn8957cn8957cn.png',
+    category: 'Ropa',
+    
   },
   {
     id: '4',
-    name: 'PC Gamer RTX',
-    description: 'PC de alto rendimiento con RTX 4070',
-    price: 1499.99,
-    image: '/public/logo512.png',
-    category: 'PC',
-    compatibility: ['PC'],
+    name: 'Mousepad Gaming XL',
+    description: 'Mousepad de gran tamaño para gaming',
+    price: 19.99,
+    image: '/imagenes/Gemini_Generated_Image_80u30w80u30w80u3.png',
+    category: 'Accesorios',
+    
   },
   {
     id: '5',
-    name: 'DualSense Controller',
-    description: 'Control inalámbrico para PS5',
-    price: 69.99,
-    image: '/public/logo512.png',
-    category: 'Accesorios',
-    compatibility: ['PlayStation'],
+    name: 'Playera Logo Dravora',
+    description: 'Playera con el logo oficial de Dravora',
+    price: 24.99,
+    image: '/imagenes/Gemini_Generated_Image_90tyri90tyri90ty.png',
+    category: 'Ropa',
+    
   },
   {
     id: '6',
-    name: 'Xbox Wireless Controller',
-    description: 'Control inalámbrico para Xbox',
-    price: 64.99,
-    image: '/public/logo512.png',
-    category: 'Accesorios',
-    compatibility: ['Xbox'],
+    name: 'Gorra Logo Dravora',
+    description: 'Gorra con el logo oficial de Dravora',
+    price: 59.99,
+    image: '/imagenes/Gemini_Generated_Image_fciercfciercfcie.png',
+    category: 'Ropa',
+    
   },
   {
     id: '7',
-    name: 'Nintendo Pro Controller',
-    description: 'Control profesional para Switch',
-    price: 59.99,
-    image: '/public/logo512.png',
-    category: 'Accesorios',
-    compatibility: ['Nintendo'],
+    name: 'Sudadera Dravora Edición Limitada',
+    description: 'Sudadera con capucha edición limitada de Dravora',
+    price: 79.99,
+    image: '/imagenes/Gemini_Generated_Image_i4tac3i4tac3i4ta.png',
+    category: 'Ropa',
+    
   },
   {
     id: '8',
-    name: 'Monitor Gaming 144Hz',
-    description: 'Monitor de alta frecuencia para gaming',
-    price: 299.99,
-    image: '/public/logo512.png',
-    category: 'PC',
-    compatibility: ['PC'],
+    name: 'Pants Dravora Comfy', 
+    description: 'Pants cómodos y estilosos para uso diario',
+    price: 39.99,
+    image: '/imagenes/Gemini_Generated_Image_iztxa5iztxa5iztx.png',
+    category: 'Ropa',
+    
   },
   {
     id: '9',
-    name: 'Auriculares Inalámbricos',
-    description: 'Auriculares con sonido envolvente',
-    price: 89.99,
-    image: '/public/logo512.png',
-    category: 'Accesorios',
-    compatibility: ['PC', 'PlayStation', 'Xbox', 'Nintendo'],
+    name: 'Calcetines Dravora',
+    description: 'Calcetines cómodos con diseño exclusivo',
+    price: 9.99,
+    image: '/imagenes/Gemini_Generated_Image_jp2n5xjp2n5xjp2n.png',
+    category: 'Ropa',
+    
   },
   {
     id: '10',
-    name: 'Tarjeta de regalo',
-    description: 'Tarjeta de regalo para la tienda online',
-    price: 50.00,
-    image: '/public/logo512.png',
-    category: 'Otros',
-    compatibility: ['PC', 'PlayStation', 'Xbox', 'Nintendo'],
+    name: 'Shorts Dravora Verano',
+    description: 'Shorts ligeros y frescos para el verano',
+    price: 15.00,
+    image: '/imagenes/Gemini_Generated_Image_txdrqjtxdrqjtxdr.png',
+    category: 'Ropa',
+    
   },
 ];
 
@@ -154,12 +154,12 @@ const Store = () => {
             cursor:'pointer',
             border:'1.5px solid #b084f7'
           }}>
-            <img src={product.image} alt={product.name} style={{width:'80px', marginBottom:'16px'}} />
+            <img src={product.image} alt={product.name} style={{width:'120px', marginBottom:'16px'}} />
             <h2 style={{color:'#b084f7', fontSize:'1.2rem', margin:'8px 0'}}>{product.name}</h2>
             <p style={{color:'#e0d6f7', fontSize:'0.95rem', marginBottom:'8px'}}>{product.description}</p>
             <p style={{fontWeight:'bold', color:'#fff', fontSize:'1.1rem'}}>Precio: ${product.price}</p>
             <p style={{color:'#b084f7', fontSize:'0.9rem'}}>Categoría: {product.category}</p>
-            <p style={{color:'#e0d6f7', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>
+            {product.compatibility && product.compatibility.length > 0 && <p style={{color:'#e0d6f7', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>}
             <button style={{
               marginTop:'16px',
               background:'linear-gradient(90deg, #2d133b 0%, #b084f7 100%)',
