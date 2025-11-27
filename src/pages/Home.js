@@ -7,8 +7,33 @@ const Home = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
+<<<<<<< HEAD
   // TEMP: para probar keys en tiempo real sin .env
   const [testApiKey, setTestApiKey] = useState('');
+=======
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      user: 'GamerQueen',
+      content: '¿Alguien ya probó el nuevo Zelda TOTK? 😍',
+      reactions: { like: 3, fire: 1, game: 2 },
+      isLive: false,
+    },
+    {
+      id: 2,
+      user: 'NoobMaster69',
+      content: '🔴 En vivo jugando Fortnite. ¡Entra a verme!',
+      reactions: { like: 5, fire: 2, game: 1 },
+      isLive: true,
+    },
+    {
+      id: 3,
+      user: 'Novarosa77',
+      content: '¿Qué les parece la Switch 2? La verdad yo me quedo con la primera',
+      reactions: { like: 16, fire: 3, game: 8 },
+    },
+  ]);
+>>>>>>> 8e6c6fe53c52fa5bc2f0d2b4c0b995ec512d8b89
 
   const [posts, setPosts] = useState([
     { id: 1, user: 'GamerQueen', content: '¿Alguien ya probó el nuevo Zelda TOTK? 😍', reactions: { like: 3, fire: 1, game: 2 }, isLive: false },
@@ -223,6 +248,17 @@ const Home = () => {
         <div className="console-card nintendo" onClick={() => navigate('/nintendo')}>Nintendo</div>
       </div>
 
+<<<<<<< HEAD
+=======
+      {/* Botón rápido a Directo */}
+      <div style={{ marginTop: 16 }}>
+        <button onClick={() => navigate('/directo')} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
+          🎥 Ir a Directo
+        </button>
+      </div>
+
+      {/* Nueva publicación */}
+>>>>>>> 8e6c6fe53c52fa5bc2f0d2b4c0b995ec512d8b89
       <div className="new-post">
         <textarea placeholder="¿Qué estás pensando, Silvana?" value={newPost} onChange={(e) => setNewPost(e.target.value)} />
         <button onClick={handlePost}>Publicar</button>

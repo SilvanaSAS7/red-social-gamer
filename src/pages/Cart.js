@@ -223,12 +223,12 @@ const Cart = () => {
               border:'1.5px solid #b084f7',
               position:'relative'
             }}>
-              <img src={product.image} alt={product.name} style={{width:'80px', marginBottom:'16px'}} />
+              <img src={product.image} alt={product.name} style={{width:'120px', marginBottom:'16px'}} />
               <h3 style={{color:'#b084f7', fontSize:'1.1rem', margin:'8px 0'}}>{product.name}</h3>
               <p style={{color:'#e0d6f7', fontSize:'0.95rem', marginBottom:'8px'}}>{product.description}</p>
               <p style={{fontWeight:'bold', color:'#fff', fontSize:'1.05rem'}}>Precio: ${product.price}</p>
               <p style={{color:'#b084f7', fontSize:'0.9rem'}}>Categoría: {product.category}</p>
-              <p style={{color:'#e0d6f7', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>
+              {product.compatibility && product.compatibility.length > 0 && <p style={{color:'#e0d6f7', fontSize:'0.9rem'}}>Compatibilidad: {product.compatibility.join(', ')}</p>}
               <div style={{width:'100%', display:'flex', flexDirection:'column', alignItems:'center', marginTop:'12px'}}>
                 <BarcodeGeneratot value={product.id} style={{background:'linear-gradient(90deg, #ffe259 0%, #ffa751 100%)', borderRadius:'8px', padding:'8px'}} />
               </div>
