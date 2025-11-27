@@ -170,7 +170,7 @@ const Home = () => {
 
       {/* Botón rápido a Directo */}
       <div style={{ marginTop: 16 }}>
-        <button onClick={() => navigate('/directo')} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
+        <button onClick={() => navigate('/watch/ac5f9300cbb111f087509b39e8688793')} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
           🎥 Ir a Directo
         </button>
       </div>
