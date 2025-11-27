@@ -1,134 +1,93 @@
-import React, { useRef, useState, useEffect } from 'react';
-import * as livepeerService from '../services/livepeerService';
+import React, { useState, useRef } from 'react';
+import * as castrService from '../services/castrService';
 
-export default function BroadcasterManual() {
-  const [title, setTitle] = useState('');
+const BroadcasterManual = () => {
+  const [streamName, setStreamName] = useState('');
+  const [region, setRegion] = useState('US-West');
   const [streamInfo, setStreamInfo] = useState(null);
-  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState(null);
   const videoRef = useRef(null);
-  const localStreamRef = useRef(null);
-  const pcRef = useRef(null);
-  const sessionRef = useRef(null);
+  const [previewOn, setPreviewOn] = useState(false);
+  const [mediaStream, setMediaStream] = useState(null);
 
-  useEffect(() => {
-    return () => {
-      if (pcRef.current) try { pcRef.current.close(); } catch (e) {}
-      if (localStreamRef.current) localStreamRef.current.getTracks().forEach(t => t.stop());
-    };
-  }, []);
-
-  async function startPreview() {
-    setStatus('preview');
+  const startPreview = async () => {
+    setError(null);
     try {
-      const s = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      localStreamRef.current = s;
-      if (videoRef.current) videoRef.current.srcObject = s;
-    } catch (e) {
-      setStatus('error');
-      console.error('getUserMedia failed', e);
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      if (videoRef.current) videoRef.current.srcObject = stream;
+      setMediaStream(stream);
+      setPreviewOn(true);
+    } catch (err) {
+      setError('Could not access camera/microphone: ' + err.message);
     }
-  }
+  };
 
-  async function createStreamOnServer() {
-    setStatus('creating-stream');
+  const stopPreview = () => {
+    if (mediaStream) {
+      mediaStream.getTracks().forEach(t => t.stop());
+      setMediaStream(null);
+    }
+    if (videoRef.current) videoRef.current.srcObject = null;
+    setPreviewOn(false);
+  };
+
+  const createStream = async () => {
+    setError(null);
     try {
-      const data = await livepeerService.createStream({ name: title || 'Directo desde el navegador' });
-      setStreamInfo(data);
-      setStatus('stream-created');
-      return data;
-    } catch (e) {
-      console.error('createStream failed', e);
-      setStatus('error');
-      throw e;
+      const stream = await castrService.createStream(streamName, region);
+      setStreamInfo(stream);
+    } catch (err) {
+      setError('Failed to create stream: ' + err.message);
     }
-  }
-
-  async function startWebRTC() {
-    setStatus('starting-webrtc');
-    try {
-      if (!localStreamRef.current) await startPreview();
-      const data = streamInfo || await createStreamOnServer();
-      const streamId = data.id;
-
-      const pc = new RTCPeerConnection();
-      pcRef.current = pc;
-
-      // add local tracks
-      localStreamRef.current.getTracks().forEach(track => pc.addTrack(track, localStreamRef.current));
-
-      // send local candidates to server bridge
-      pc.onicecandidate = async (ev) => {
-        if (!ev.candidate) return;
-        try {
-          // the bridge implemented POST /api/livepeer/streams/:streamId/candidates
-          if (streamId && sessionRef.current?.id) {
-            await livepeerService.sendWebRTCCandidate(streamId, sessionRef.current.id, ev.candidate.toJSON ? ev.candidate.toJSON() : ev.candidate);
-          }
-        } catch (e) {
-          console.warn('failed to send candidate', e);
-        }
-      };
-
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-
-      // Create webrtc session via bridge (which calls Livepeer) -> returns { id, sdp }
-      const resp = await livepeerService.createWebRTCSession(streamId, offer.sdp);
-      // resp may contain answer sdp or an object with sdp field
-      const answerSdp = resp?.sdp || resp?.answer;
-      sessionRef.current = { id: resp?.id || resp?.sessionId || null };
-      if (!answerSdp) throw new Error('No answer SDP returned from bridge/Livepeer');
-
-      await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp });
-      setStatus('connected');
-    } catch (e) {
-      console.error('startWebRTC error', e);
-      setStatus('error');
-    }
-  }
-
-  async function stopAll() {
-    setStatus('stopping');
-    if (pcRef.current) try { pcRef.current.close(); } catch (e) {}
-    if (localStreamRef.current) localStreamRef.current.getTracks().forEach(t => t.stop());
-    pcRef.current = null;
-    localStreamRef.current = null;
-    setStatus('idle');
-  }
+  };
 
   return (
-    <div style={{ padding: 20, maxWidth: 980, margin: '0 auto' }}>
-      <h2>Iniciar Transmisión (Manual)</h2>
-      <div style={{ marginBottom: 12 }}>
-        <label>Título</label>
-        <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Título del stream" style={{ width: '100%', padding: 8, marginTop: 6 }} />
-      </div>
+    <div style={{ padding: 20, maxWidth: 1100, margin: '0 auto' }}>
+      <h1>Start Live Stream with Castr.io</h1>
 
-      <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-        <button onClick={startPreview} disabled={status === 'preview'}>Iniciar vista previa</button>
-        <button onClick={createStreamOnServer} disabled={status === 'creating-stream' || status === 'stream-created'}>Crear stream</button>
-        <button onClick={startWebRTC} disabled={status === 'starting-webrtc' || status === 'connected'}>Iniciar WebRTC</button>
-        <button onClick={stopAll}>Detener</button>
-      </div>
+      <section style={{ marginBottom: 16 }}>
+        <label>Stream Name</label>
+        <input value={streamName} onChange={e => setStreamName(e.target.value)} style={{ width: '100%', padding: 8, marginTop: 6 }} />
+      </section>
+
+      <section style={{ marginBottom: 16 }}>
+        <label>Region</label>
+        <select value={region} onChange={e => setRegion(e.target.value)} style={{ display: 'block', marginTop: 6 }}>
+          <option value="US-West">US-West</option>
+          <option value="US-East">US-East</option>
+          <option value="EU-West">EU-West</option>
+          <option value="Asia-Pacific">Asia-Pacific</option>
+        </select>
+      </section>
+
+      <section style={{ marginBottom: 16 }}>
+        <button onClick={startPreview} disabled={previewOn} style={{ marginRight: 8 }}>Start Preview</button>
+        <button onClick={stopPreview} disabled={!previewOn} style={{ marginRight: 8 }}>Stop Preview</button>
+        <button onClick={createStream} style={{ marginLeft: 8 }}>Create Stream</button>
+      </section>
+
+      {error && <div style={{ color: 'crimson', marginBottom: 12 }}>{error}</div>}
 
       <div style={{ display: 'flex', gap: 20 }}>
         <div style={{ flex: 1 }}>
           <video ref={videoRef} autoPlay muted playsInline style={{ width: '100%', background: '#000' }} />
         </div>
         <div style={{ width: 420 }}>
-          <h4>Estado</h4>
-          <p>{status}</p>
+          <h3>Stream Information</h3>
+          {!streamInfo && <div style={{ color: '#666' }}>Stream information will appear here once the stream is created.</div>}
           {streamInfo && (
             <div>
-              <p><strong>Stream ID:</strong> {streamInfo.id}</p>
-              <p><strong>Playback:</strong><br /><a href={streamInfo.playbackUrl} target="_blank" rel="noreferrer">{streamInfo.playbackUrl}</a></p>
-              <p><strong>RTMP ingest:</strong><br />{streamInfo.rtmpIngestUrl}</p>
-              <p><strong>Stream key:</strong><br /><code style={{ wordBreak: 'break-all' }}>{streamInfo.streamKey}</code></p>
-              <p style={{ marginTop: 8 }}><strong>Compartir visor:</strong><br />{window.location.origin}/watch/{streamInfo.playbackId || streamInfo.id}</p>
+              <p><strong>ID:</strong> {streamInfo.id}</p>
+              <p><strong>RTMP URL:</strong><br /> {streamInfo.rtmp_url}</p>
+              <p><strong>Stream Key:</strong><br /><code style={{ wordBreak: 'break-all' }}>{streamInfo.stream_key}</code></p>
+              <p><strong>Playback URL:</strong><br /> <a href={streamInfo.playback_url} target="_blank" rel="noreferrer">{streamInfo.playback_url}</a></p>
+              <p><strong>Watch Stream:</strong><br /> <a href={`/watch/${streamInfo.id}`} target="_blank" rel="noreferrer">{`/watch/${streamInfo.id}`}</a></p>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default BroadcasterManual;
