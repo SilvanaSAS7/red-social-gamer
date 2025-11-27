@@ -3,12 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@livepeer/core": "^3.3.1",
     "@livepeer/react": "^4.3.6",
-=======
-    "@livepeer/react": "^0.5.0",
->>>>>>> 8e6c6fe53c52fa5bc2f0d2b4c0b995ec512d8b89
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^13.0.0",
@@ -25,7 +21,7 @@
     "react-slick": "^0.30.3",
     "recharts": "^3.1.2",
     "slick-carousel": "^1.8.1",
-    "wagmi": "^2.19.2",
+    "wagmi": "^1.4.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
