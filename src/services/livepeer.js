@@ -1,90 +1,36 @@
-const SERVER_BASE = process.env.REACT_APP_SERVER_URL || '';
+const BACKEND_URL = 'http://localhost/dravora-api'; // XAMPP: carpeta en htdocs
 
-/**
- * Crea stream en el backend (recomendado) o directamente en Livepeer Studio
- * @param {string} offerSdp
- * @param {string} testApiKey optional (temporal)
- * @returns {Promise<{streamId, answer, playbackId, rtmpIngestUrl, streamKey}>}
- */
-export async function createStreamWithSDP(offerSdp, testApiKey = '') {
-  // usa proxy si está configurado
-  if (SERVER_BASE) {
-    const res = await fetch(`${SERVER_BASE.replace(/\/$/, '')}/api/live/start`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sdp: offerSdp }),
-    });
-    const text = await res.text();
-    if (!res.ok) throw new Error(text || `status ${res.status}`);
-    const json = JSON.parse(text);
-    return {
-      streamId: json.streamId,
-      answer: json.answer,
-      playbackId: json.playbackId,
-      rtmpIngestUrl: json.rtmpIngestUrl,
-      streamKey: json.streamKey,
-    };
-  }
-
-  // fallback directo a Livepeer Studio (solo para desarrollo)
-  const LIVEPEER_KEY = testApiKey || process.env.REACT_APP_LIVEPEER_API_KEY;
-  if (!LIVEPEER_KEY) throw new Error('REACT_APP_LIVEPEER_API_KEY missing');
-
-  // crear stream
-  const createResp = await fetch('https://livepeer.studio/api/streams', {
+export const createStream = async (streamName, ownerId) => {
+  const res = await fetch(`${BACKEND_URL}/streams.php`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${LIVEPEER_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: `live-${Date.now()}`, mp4: false }),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: streamName, owner_id: ownerId }),
   });
-  const createText = await createResp.text();
-  if (!createResp.ok) throw new Error(createText || `status ${createResp.status}`);
-  let createData = null;
-  try { createData = JSON.parse(createText); } catch {}
-  const streamId = createData?.id || createData?.stream?.id || createData?.data?.id;
-  const playbackId = createData?.playbackId || createData?.stream?.playbackId || createData?.data?.playbackId;
-  const rtmpIngestUrl = createData?.rtmpIngestUrl || createData?.stream?.rtmpIngestUrl || createData?.data?.rtmpIngestUrl;
-  const streamKey = createData?.streamKey || createData?.data?.streamKey || createData?.stream?.streamKey;
 
-  if (!streamId) throw new Error('no stream id from Livepeer create');
+  const text = await res.text();
+  // Log para depurar respuestas HTML/errores
+  console.log('createStream response text:', text);
 
-  // exchange SDP
-  const sdpResp = await fetch(`https://livepeer.studio/api/streams/${streamId}/webrtc`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${LIVEPEER_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: 'offer', sdp: offerSdp }),
-  });
-  const sdpText = await sdpResp.text();
-  if (!sdpResp.ok) {
-    // cleanup
-    await fetch(`https://livepeer.studio/api/streams/${streamId}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${LIVEPEER_KEY}` },
-    }).catch(() => {});
-    throw new Error(sdpText || `status ${sdpResp.status}`);
-  }
-
-  let answer = sdpText;
+  let data;
   try {
-    const maybeJson = JSON.parse(sdpText);
-    answer = maybeJson.sdp || maybeJson.answer || sdpText;
-  } catch {}
-
-  return { streamId, answer, playbackId, rtmpIngestUrl, streamKey };
-}
-
-/**
- * Elimina stream por id vía backend o Livepeer Studio
- */
-export async function deleteStream(streamId, testApiKey = '') {
-  if (!streamId) return;
-  if (SERVER_BASE) {
-    await fetch(`${SERVER_BASE.replace(/\/$/, '')}/api/live/${streamId}`, { method: 'DELETE' }).catch(() => {});
-    return;
+    data = JSON.parse(text);
+  } catch (e) {
+    throw new Error('Respuesta inválida del servidor: no es JSON. Revisar backend. Raw: ' + text.slice(0, 500));
   }
-  const LIVEPEER_KEY = testApiKey || process.env.REACT_APP_LIVEPEER_API_KEY;
-  if (!LIVEPEER_KEY) return;
-  await fetch(`https://livepeer.studio/api/streams/${streamId}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${LIVEPEER_KEY}` },
-  }).catch(() => {});
-}
+
+  if (!data.success) {
+    throw new Error(data.message || 'Error creando stream');
+  }
+
+  return {
+    streamId: data.data.livepeer_id,
+    playbackId: data.data.playback_id,
+    streamKey: data.data.stream_key,
+    rtmpIngestUrl: data.data.rtmp_url,
+  };
+};
+
+export const deleteStream = async (streamId) => {
+  // Implementar si tienes endpoint para borrar/terminar en backend
+  console.log('deleteStream not implemented, streamId=', streamId);
+};

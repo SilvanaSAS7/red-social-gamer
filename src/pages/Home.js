@@ -1,14 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/home.css';
-import { createStreamWithSDP, deleteStream } from '../services/livepeer';
+import { createStream, deleteStream } from '../services/livepeer';
 
 const Home = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // TEMP: para probar keys en tiempo real sin .env
-  const [testApiKey, setTestApiKey] = useState('');
+  // TEMP: usuario hardcodeado (luego obtener de contexto/localStorage)
+  const userId = 1; // TODO: obtener del contexto de autenticación
+  
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -32,10 +33,10 @@ const Home = () => {
     },
   ]);
 
-
   const [newPost, setNewPost] = useState('');
   const [showLive, setShowLive] = useState(false);
   const [starting, setStarting] = useState(false);
+  const [streamTitle, setStreamTitle] = useState('');
 
   // stream info
   const [streamId, setStreamId] = useState(null);
@@ -63,36 +64,32 @@ const Home = () => {
     setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, reactions: { ...p.reactions, [type]: p.reactions[type] + 1 } } : p)));
   };
 
-  // helper: create RTCPeerConnection and attach local tracks
-  const createPeerConnectionWithLocal = async () => {
-    const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
-    const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    localStreamRef.current = localStream;
-    if (videoRef.current) videoRef.current.srcObject = localStream;
-    localStream.getTracks().forEach((t) => pc.addTrack(t, localStream));
-    return pc;
-  };
-
   const startLive = async () => {
+    if (!streamTitle.trim()) {
+      alert('Por favor ingresa un título para tu transmisión');
+      return;
+    }
+
     setStarting(true);
     try {
-      const pc = await createPeerConnectionWithLocal();
+      // Crear stream en el backend
+      const streamData = await createStream(streamTitle, userId);
+
+      setStreamId(streamData.streamId);
+      setStreamKey(streamData.streamKey);
+      setRtmpIngestUrl(streamData.rtmpIngestUrl);
+      setPlaybackId(streamData.playbackId);
+
+      // Obtener acceso a cámara
+      const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      localStreamRef.current = localStream;
+      if (videoRef.current) videoRef.current.srcObject = localStream;
+
+      // Crear peer connection (opcional si usas RTMP directo)
+      const pc = new RTCPeerConnection({ iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] });
       pcRef.current = pc;
+      localStream.getTracks().forEach((t) => pc.addTrack(t, localStream));
 
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-
-      const { streamId: sid, answer, playbackId: pb, rtmpIngestUrl: ingest, streamKey: key } =
-        await createStreamWithSDP(offer.sdp, testApiKey);
-
-      if (!answer) throw new Error('No SDP answer received from server');
-      await pc.setRemoteDescription({ type: 'answer', sdp: answer });
-
-      setStreamId(sid || null);
-      setPlaybackId(pb || null);
-      setRtmpIngestUrl(ingest || null);
-      setStreamKey(key || null);
-      setShowLive(true);
     } catch (err) {
       console.error('startLive error', err);
       alert('Error al iniciar la transmisión: ' + (err.message || err));
@@ -104,20 +101,17 @@ const Home = () => {
 
   const stopLive = async () => {
     try {
-      // stop local media
       const s = localStreamRef.current;
       if (s) s.getTracks().forEach((t) => t.stop());
       localStreamRef.current = null;
       if (videoRef.current) videoRef.current.srcObject = null;
 
-      // close pc
       if (pcRef.current) {
         try { pcRef.current.close(); } catch {}
         pcRef.current = null;
       }
 
-      // delete stream
-      await deleteStream(streamId, testApiKey);
+      await deleteStream(streamId);
     } catch (err) {
       console.warn('stopLive error', err);
     } finally {
@@ -125,6 +119,7 @@ const Home = () => {
       setStreamKey(null);
       setRtmpIngestUrl(null);
       setPlaybackId(null);
+      setStreamTitle('');
       setShowLive(false);
       setStarting(false);
     }
@@ -161,31 +156,31 @@ const Home = () => {
                 <h3>🎥 Streamer</h3>
                 <div style={{ margin: '8px 0' }}>
                   <input
-                    placeholder="Key temporal (solo pruebas)"
-                    value={testApiKey}
-                    onChange={(e) => setTestApiKey(e.target.value.trim())}
-                    style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc' }}
+                    placeholder="Título de tu transmisión"
+                    value={streamTitle}
+                    onChange={(e) => setStreamTitle(e.target.value)}
+                    style={{ width: '100%', padding: 8, borderRadius: 6, border: '1px solid #ccc', marginBottom: 8 }}
                   />
                 </div>
 
                 {!streamId ? (
                   <>
-                    <p>Crear transmisión (Livepeer Studio).</p>
+                    <p>Crear transmisión en Livepeer Studio</p>
                     <div style={{ display: 'flex', gap: 8 }}>
-                      <button onClick={startLive} disabled={starting} className="btn-primary">
+                      <button onClick={startLive} disabled={starting || !streamTitle.trim()} className="btn-primary">
                         {starting ? 'Iniciando...' : 'Iniciar Live'}
                       </button>
-                      <button onClick={() => { setShowLive(false); }} className="btn-secondary">Cerrar</button>
+                      <button onClick={() => setShowLive(false)} className="btn-secondary">Cerrar</button>
                     </div>
                   </>
                 ) : (
                   <>
-                    <p><strong>Transmisión en curso</strong></p>
-                    <div style={{ wordBreak: 'break-word', background: '#fff', padding: 8, borderRadius: 8 }}>
+                    <p><strong>✅ Transmisión en curso</strong></p>
+                    <div style={{ wordBreak: 'break-word', background: '#fff', padding: 8, borderRadius: 8, fontSize: '0.9em' }}>
                       <div><strong>Stream ID:</strong> {streamId}</div>
                       <div><strong>Playback ID:</strong> {playbackId}</div>
-                      <div><strong>RTMP:</strong> {rtmpIngestUrl}</div>
-                      <div><strong>Key:</strong> {streamKey}</div>
+                      <div><strong>RTMP URL:</strong> {rtmpIngestUrl}</div>
+                      <div><strong>Stream Key:</strong> {streamKey}</div>
                     </div>
                     <div style={{ marginTop: 8 }}>
                       <button onClick={stopLive} className="btn-stop">Finalizar Live</button>
@@ -241,14 +236,12 @@ const Home = () => {
         <div className="console-card nintendo" onClick={() => navigate('/nintendo')}>Nintendo</div>
       </div>
 
-      {/* Botón rápido a Directo */}
       <div style={{ marginTop: 16 }}>
-        <button onClick={() => navigate('/directo')} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
+        <button onClick={() => setShowLive(true)} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
           🎥 Ir a Directo
         </button>
       </div>
 
-      {/* Nueva publicación */}
       <div className="new-post">
         <textarea placeholder="¿Qué estás pensando, Silvana?" value={newPost} onChange={(e) => setNewPost(e.target.value)} />
         <button onClick={handlePost}>Publicar</button>
