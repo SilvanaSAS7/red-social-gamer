@@ -1,37 +1,40 @@
-// Registro
+const BASE = '/dravora-api'; // proxyará el dev server a http://localhost
+
+async function parseResponse(res) {
+  const text = await res.text();
+  try { return JSON.parse(text); } catch { return text; }
+}
+
+async function requestJson(url, opts) {
+  const res = await fetch(url, opts);
+  const body = await parseResponse(res);
+  return { res, body };
+}
+
 export const registerUser = async (username, email, password) => {
   try {
-    const response = await fetch('http://localhost/dravora-api/register.php', {
+    const { res, body } = await requestJson(`${BASE}/register.php`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, email, password })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password }),
     });
-
-    const data = await response.json();
-    // Devuelve siempre un objeto con success y message
-    return { success: data.success, message: data.message || '' };
+    if (!res.ok) return { success: false, message: typeof body === 'string' ? body : JSON.stringify(body) };
+    return { success: body.success ?? true, message: body.message ?? '' };
   } catch (error) {
     console.error("Error en el registro:", error);
     return { success: false, message: "Error en el registro" };
   }
 };
 
-// Login
 export const loginUser = async (email, password) => {
   try {
-    const response = await fetch('http://localhost/dravora-api/login.php', {
+    const { res, body } = await requestJson(`${BASE}/login.php`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     });
-
-    const data = await response.json();
-    // Devuelve siempre un objeto con success y message
-    return { success: data.success, message: data.message || '' };
+    if (!res.ok) return { success: false, message: typeof body === 'string' ? body : JSON.stringify(body) };
+    return { success: body.success ?? true, message: body.message ?? '', data: body };
   } catch (error) {
     console.error("Error en el login:", error);
     return { success: false, message: "Error en el login" };
