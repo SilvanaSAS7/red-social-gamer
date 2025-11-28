@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import '../styles/home.css';
 import { createStreamWithSDP, deleteStream } from '../services/livepeer';
+import { useStream } from '../context/StreamContext';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { isLive, playbackId: streamPlaybackId } = useStream();
   const [menuOpen, setMenuOpen] = useState(false);
 
   // TEMP: para probar keys en tiempo real sin .env
@@ -62,6 +64,35 @@ const Home = () => {
   const addReaction = (id, type) => {
     setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, reactions: { ...p.reactions, [type]: p.reactions[type] + 1 } } : p)));
   };
+
+  useEffect(() => {
+    if (isLive && streamPlaybackId) {
+      // Utiliza la actualización funcional para evitar el estado obsoleto de `posts`
+      setPosts(prevPosts => {
+        const hasLivePost = prevPosts.some(p => p.id === 'live-stream-post');
+        if (!hasLivePost) {
+          const livePost = {
+            id: 'live-stream-post',
+            user: 'Streamer',
+            content: '¡Un nuevo directo ha comenzado!',
+            reactions: { like: 0, fire: 0, game: 0 },
+            isLive: true,
+            playbackId: streamPlaybackId,
+          };
+          return [livePost, ...prevPosts];
+        }
+        return prevPosts; // No se necesita cambio
+      });
+    } else {
+      setPosts(prevPosts => {
+        const hasLivePost = prevPosts.some(p => p.id === 'live-stream-post');
+        if (hasLivePost) {
+          return prevPosts.filter(p => p.id !== 'live-stream-post');
+        }
+        return prevPosts; // No se necesita cambio
+      });
+    }
+  }, [isLive, streamPlaybackId]);
 
   // helper: create RTCPeerConnection and attach local tracks
   const createPeerConnectionWithLocal = async () => {
@@ -259,7 +290,11 @@ const Home = () => {
           <div key={post.id} className="post">
             <h4>{post.user}</h4>
             <p>{post.content}</p>
-            {post.isLive && <button className="live-button" onClick={() => navigate('/live')}>🔴 Ver en vivo</button>}
+            {post.isLive && (
+              <button className="live-button" onClick={() => navigate(post.playbackId ? `/watch/${post.playbackId}` : '/live')}>
+                🔴 Ver en vivo
+              </button>
+            )}
             <div className="reactions">
               <button onClick={() => addReaction(post.id, 'like')}>❤️ {post.reactions.like}</button>
               <button onClick={() => addReaction(post.id, 'fire')}>🔥 {post.reactions.fire}</button>

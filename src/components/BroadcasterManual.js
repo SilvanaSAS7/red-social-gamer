@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as castrService from '../services/castrService';
+import { useStream } from '../context/StreamContext';
 
 const BroadcasterManual = () => {
   const [streamName, setStreamName] = useState('');
@@ -9,6 +10,16 @@ const BroadcasterManual = () => {
   const videoRef = useRef(null);
   const [previewOn, setPreviewOn] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
+  const { startStream, stopStream } = useStream();
+
+  useEffect(() => {
+    // Cuando el componente se desmonte, detiene la notificación del stream
+    return () => {
+      if (streamInfo) { // Solo si se creó un stream
+        stopStream();
+      }
+    };
+  }, [streamInfo, stopStream]);
 
   const startPreview = async () => {
     setError(null);
@@ -36,6 +47,7 @@ const BroadcasterManual = () => {
     try {
       const stream = await castrService.createStream(streamName, region);
       setStreamInfo(stream);
+      startStream(stream.id);
     } catch (err) {
       setError('Failed to create stream: ' + err.message);
     }
