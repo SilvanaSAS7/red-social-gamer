@@ -28,9 +28,11 @@ const Home = () => {
     },
     {
       id: 3,
-      user: 'Novarosa77',
+      user: 'Novarosa79',
       content: '¿Qué les parece la Switch 2? La verdad yo me quedo con la primera',
-      reactions: { like: 16, fire: 3, game: 8 },
+      reactions: { like: 0, fire: 0, game: 0 },
+      isLive: true,
+      playbackId: 'ac5f9300cbb111f087509b39e8688793',
     },
   ]);
 
@@ -270,13 +272,6 @@ const Home = () => {
         <div className="console-card xbox" onClick={() => navigate('/xbox')}>Xbox</div>
         <div className="console-card pc" onClick={() => navigate('/pc')}>PC</div>
         <div className="console-card nintendo" onClick={() => navigate('/nintendo')}>Nintendo</div>
-      </div>
-
-      {/* Botón rápido a Directo */}
-      <div style={{ marginTop: 16 }}>
-        <button onClick={() => navigate('/watch/ac5f9300cbb111f087509b39e8688793')} style={{ padding: '10px 16px', background: '#e63946', color: '#fff', border: 'none', borderRadius: 6 }}>
-          🎥 Ir a Directo
-        </button>
       </div>
 
       {/* Nueva publicación */}
